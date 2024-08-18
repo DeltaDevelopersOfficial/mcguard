@@ -60,6 +60,12 @@ namespace McGuard.src.core
             serverProcess.BeginOutputReadLine();
 
             serverProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => Console.WriteLine(e.Data);
+
+            while (true)
+            {
+                string command = Console.ReadLine();
+                serverProcess.StandardInput.WriteLine(command);
+            }
         }
     }
 }
