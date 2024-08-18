@@ -41,7 +41,7 @@ namespace McGuard.src.core
         /// <summary>
         /// Create server process
         /// </summary>
-        public void CreateProcess()
+        public void CreateServerProcess()
         {
             serverProcess = new Process()
             {
