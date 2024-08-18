@@ -73,6 +73,11 @@ namespace McGuard.src.core
             {
                 string command = Console.ReadLine();
                 serverProcess.StandardInput.WriteLine(command);
+
+                if (command.Equals("stop", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Environment.Exit(0);
+                }
             }
         }
     }
