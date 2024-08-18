@@ -1,4 +1,5 @@
-﻿using System;
+﻿using McGuard.src.handlers;
+using System;
 using System.Diagnostics;
 
 namespace McGuard.src.core
@@ -30,12 +31,18 @@ namespace McGuard.src.core
         /// </summary>
         private Process serverProcess;
 
+        /// <summary>
+        /// Instance of outputhandler to handle outputs from server console
+        /// </summary>
+        private OutputHandler outputHandler;
+
         public ServerManager(int initialMemory, int maximumMemory, string jarName, string workingDirectory)
         {
             this.initialMemory = initialMemory;
             this.maximumMemory = maximumMemory;
             this.jarName = jarName;
             this.workingDirectory = workingDirectory;
+            this.outputHandler = new OutputHandler();
         }
 
         /// <summary>
@@ -60,7 +67,7 @@ namespace McGuard.src.core
             serverProcess.Start();
             serverProcess.BeginOutputReadLine();
 
-            serverProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => Console.WriteLine(e.Data);
+            serverProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => outputHandler.OnDataReceive(e);
 
             while (true)
             {
