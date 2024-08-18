@@ -1,4 +1,4 @@
-# Pavel Kalaš Software License Agreement
+# Software License Agreement
 
 **Effective Date:** August 18, 2024
 
