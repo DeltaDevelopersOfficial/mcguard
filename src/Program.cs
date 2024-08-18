@@ -1,4 +1,5 @@
-﻿using System;
+﻿using McGuard.src.test;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace McGuard
     {
         static void Main(string[] args)
         {
+            // ONLY FOR TESTING PURPOSES
+            Testing.Test();
         }
     }
 }
