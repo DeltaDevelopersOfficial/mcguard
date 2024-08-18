@@ -48,6 +48,7 @@ namespace McGuard.src.core
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "java.exe",
+                    Arguments = "-Xms" + initialMemory + "M -Xmx" + maximumMemory + "M -jar " + jarName + " nogui",
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = false,
