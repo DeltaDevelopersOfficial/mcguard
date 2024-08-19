@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\core\ServerManager.cs" />
+    <Compile Include="src\handlers\InputHandler.cs" />
     <Compile Include="src\handlers\OutputHandler.cs" />
     <Compile Include="src\listeners\CommandListener.cs" />
     <Compile Include="src\Program.cs" />
