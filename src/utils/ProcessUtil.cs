@@ -16,7 +16,7 @@ namespace McGuard.src.utils
         /// <param name="killAllAssociatedProcesses">Kills all process with specified name if TRUE</param>
         public static void KillProcessByName(string name, bool killAllAssociatedProcesses)
         {
-            foreach (var process in Process.GetProcesses())
+            foreach (var process in Process.GetProcesses().Where(p => p.ProcessName == name))
             {
                 process.Kill();
 
