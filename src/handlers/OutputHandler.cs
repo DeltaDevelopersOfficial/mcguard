@@ -39,6 +39,8 @@ namespace McGuard.src.handlers
 
                     this.commandListener.OnPlayerCommand(playerName, issuedCommand);
                 }
+
+                Console.WriteLine(outputData);
             }
         }
     }
