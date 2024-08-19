@@ -38,6 +38,8 @@ namespace McGuard.src.handlers
                     string issuedCommand = outputData.Split(new[] { "> " + commandPrefix }, StringSplitOptions.None)[1].Trim();
 
                     this.commandListener.OnPlayerCommand(playerName, issuedCommand);
+
+                    return;
                 }
 
                 Console.WriteLine(outputData);
