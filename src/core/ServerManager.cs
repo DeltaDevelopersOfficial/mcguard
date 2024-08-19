@@ -42,7 +42,6 @@ namespace McGuard.src.core
             this.maximumMemory = maximumMemory;
             this.jarName = jarName;
             this.workingDirectory = workingDirectory;
-            this.outputHandler = new OutputHandler(serverProcess);
         }
 
         /// <summary>
@@ -68,6 +67,8 @@ namespace McGuard.src.core
             serverProcess.BeginOutputReadLine();
 
             serverProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => outputHandler.OnDataReceive(e);
+
+            this.outputHandler = new OutputHandler(serverProcess);
 
             while (true)
             {
