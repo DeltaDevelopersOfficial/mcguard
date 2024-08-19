@@ -42,7 +42,7 @@ namespace McGuard.src.core
             this.maximumMemory = maximumMemory;
             this.jarName = jarName;
             this.workingDirectory = workingDirectory;
-            this.outputHandler = new OutputHandler();
+            this.outputHandler = new OutputHandler(serverProcess);
         }
 
         /// <summary>

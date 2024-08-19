@@ -17,9 +17,9 @@ namespace McGuard.src.handlers
 
         private readonly char commandPrefix = '!';
 
-        public OutputHandler()
+        public OutputHandler(Process serverProcess)
         {
-            this.commandListener = new CommandListener();
+            this.commandListener = new CommandListener(serverProcess);
         }
 
         /// <summary>
