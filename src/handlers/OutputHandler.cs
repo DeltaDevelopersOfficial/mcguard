@@ -51,13 +51,11 @@ namespace McGuard.src.handlers
                 }
                 else if (outputData.Contains("logged in"))
                 {
-                    string logEntry = "yungricci[/127.0.0.1:50882] logged in with entity id 227 at ([world] -76.5, 65.0, 249.5)";
-
                     string pattern = @"^(?<playerName>\w+)\[/((?<ipAddress>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|.+?):\d+\] logged in with entity id (?<entityId>\d+) at \(\[(?<worldName>\w+)\] (?<xCoord>-?\d+(\.\d+)?), (?<yCoord>-?\d+(\.\d+)?), (?<zCoord>-?\d+(\.\d+)?)\)$";
 
                     Regex regex = new Regex(pattern);
 
-                    Match match = regex.Match(logEntry);
+                    Match match = regex.Match(outputData);
 
                     if (match.Success)
                     {
