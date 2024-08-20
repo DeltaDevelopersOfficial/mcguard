@@ -7,6 +7,6 @@
         Underlined,
         Strikethrough,
         Obfuscated,
-        Default
+        None
     }
 }
