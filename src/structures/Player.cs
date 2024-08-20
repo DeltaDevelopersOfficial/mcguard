@@ -22,5 +22,20 @@ namespace McGuard.src.structures
         /// Player IP address
         /// </summary>
         public string IpAddress;
+
+        /// <summary>
+        /// Coord X
+        /// </summary>
+        public double PositionX;
+
+        /// <summary>
+        /// Coord Y
+        /// </summary>
+        public double PositionY;
+
+        /// <summary>
+        /// Coord Z
+        /// </summary>
+        public double PositionZ;
     }
 }
