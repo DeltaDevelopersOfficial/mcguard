@@ -42,7 +42,7 @@ namespace McGuard.src.handlers
             // replaces " as \"
             message = message.Replace("\"", "\\\"");
 
-            process.StandardInput.WriteLine("tellraw " + player.Name + " {\"text\":\"" + message.Trim() + "\", \"color\":\"" + color + "\"}");
+            process.StandardInput.WriteLine("tellraw " + player.Name + " {\"text\":\"" + (isServerMessage ? "[Server] " : "") + message.Trim() + "\", \"color\":\"" + color + "\"}");
         }
     }
 }
