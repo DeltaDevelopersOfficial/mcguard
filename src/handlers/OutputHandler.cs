@@ -52,8 +52,8 @@ namespace McGuard.src.handlers
                 }
                 else if (outputData.Contains("logged in"))
                 {
-                    string pattern = @"(?<playerName>\w+)\[/((?<ipAddress>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|.+?):\d+\] logged in with entity id (?<entityId>\d+) at \(\[(?<worldName>\w+)\] (?<xCoord>-?\d+(\.\d+)?), (?<yCoord>-?\d+(\.\d+)?), (?<zCoord>-?\d+(\.\d+)?)\)";
-
+                    string pattern = @"(?<playerName>\w+)\[/((?<ipAddress>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|.+?):\d+\] logged in with entity id (?<entityId>\d+) at \(\[(?<worldName>\w+)\]\s*(?<xCoord>-?\d+(\.\d+)?),\s*(?<yCoord>-?\d+(\.\d+)?),\s*(?<zCoord>-?\d+(\.\d+)?)\)";
+                    
                     Regex regex = new Regex(pattern);
 
                     Match match = regex.Match(outputData);
