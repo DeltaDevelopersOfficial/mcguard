@@ -47,8 +47,11 @@
     <Compile Include="src\handlers\InputHandler.cs" />
     <Compile Include="src\handlers\OutputHandler.cs" />
     <Compile Include="src\listeners\CommandListener.cs" />
+    <Compile Include="src\listeners\ConnectionListener.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\structures\Player.cs" />
+    <Compile Include="src\structures\World.cs" />
     <Compile Include="src\test\Testing.cs" />
     <Compile Include="src\utils\JavaChecker.cs" />
     <Compile Include="src\utils\ProcessUtil.cs" />
