@@ -5,33 +5,42 @@ namespace McGuard.src.structures
     internal struct Message
     {
         /// <summary>
+        /// Help variable for getter and setter
+        /// </summary>
+        private string _content;
+
+        /// <summary>
         /// Content of the message
         /// </summary>
-        public string Content;
+        public string Content
+        {
+            get => _content;
+            private set => _content = value.Trim();
+        }
 
         /// <summary>
         /// Message length
         /// </summary>
-        public long Length;
+        public long Length { get; private set; }
 
         /// <summary>
         /// Message color style
         /// </summary>
-        public Color Color;
+        public Color Color { get; private set; }
 
         /// <summary>
         /// Font style like bold, italic etc..
         /// </summary>
-        public Style Style;
+        public Style Style { get; private set; }
 
         /// <summary>
         /// Identify if it is server message
         /// </summary>
-        public bool IsServerMessage;
+        public bool IsServerMessage { get; private set; }
 
         public Message(string content, long length, Color color, Style style, bool isServerMessage)
         {
-            this.Content = content;
+            _content = content?.Trim() ?? string.Empty;
             this.Length = length;
             this.Color = color;
             this.Style = style;
