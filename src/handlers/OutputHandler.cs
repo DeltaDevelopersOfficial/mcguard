@@ -3,6 +3,7 @@ using McGuard.src.structures;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -51,7 +52,7 @@ namespace McGuard.src.handlers
                 }
                 else if (outputData.Contains("logged in"))
                 {
-                    string pattern = @"^(?<playerName>\w+)\[/((?<ipAddress>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|.+?):\d+\] logged in with entity id (?<entityId>\d+) at \(\[(?<worldName>\w+)\] (?<xCoord>-?\d+(\.\d+)?), (?<yCoord>-?\d+(\.\d+)?), (?<zCoord>-?\d+(\.\d+)?)\)$";
+                    string pattern = @"(?<playerName>\w+)\[/((?<ipAddress>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|.+?):\d+\] logged in with entity id (?<entityId>\d+) at \(\[(?<worldName>\w+)\] (?<xCoord>-?\d+(\.\d+)?), (?<yCoord>-?\d+(\.\d+)?), (?<zCoord>-?\d+(\.\d+)?)\)";
 
                     Regex regex = new Regex(pattern);
 
@@ -61,16 +62,17 @@ namespace McGuard.src.handlers
                     {
                         string playerName = match.Groups["playerName"].Value;
                         string ipAddress = match.Groups["ipAddress"].Value;
-                        
                         int entityId = int.Parse(match.Groups["entityId"].Value);
-                        
-                        double xCoord = double.Parse(match.Groups["xCoord"].Value);
-                        double yCoord = double.Parse(match.Groups["yCoord"].Value);
-                        double zCoord = double.Parse(match.Groups["zCoord"].Value);
 
-                        Player player = new Player(entityId, playerName, ipAddress, xCoord, yCoord, zCoord);
-                        
-                        connectionListener.OnPlayerConnection(player);
+                        string xCoordString = match.Groups["xCoord"].Value;
+                        string yCoordString = match.Groups["yCoord"].Value;
+                        string zCoordString = match.Groups["zCoord"].Value;
+
+                        if (double.TryParse(xCoordString, NumberStyles.Float, CultureInfo.InvariantCulture, out double xCoord) && double.TryParse(yCoordString, NumberStyles.Float, CultureInfo.InvariantCulture, out double yCoord) && double.TryParse(zCoordString, NumberStyles.Float, CultureInfo.InvariantCulture, out double zCoord))
+                        {
+                            Player player = new Player(entityId, playerName, ipAddress, xCoord, yCoord, zCoord);
+                            connectionListener.OnPlayerConnection(player);
+                        }
                     }
                     else
                     {
