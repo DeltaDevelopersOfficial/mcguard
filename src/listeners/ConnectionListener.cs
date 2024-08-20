@@ -30,7 +30,7 @@ namespace McGuard.src.listeners
         {
             foreach (var singleMessage in joinMessage)
             {
-                SendMessageToPlayer(player, singleMessage);
+                SendMessageToPlayer(player, new Message(singleMessage, singleMessage.Length, structures.text.Color.White, structures.text.Style.None, true));
             }
         }
     }
