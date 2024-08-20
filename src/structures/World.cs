@@ -8,5 +8,9 @@ namespace McGuard.src.structures
 {
     internal struct World
     {
+        /// <summary>
+        /// Name of world
+        /// </summary>
+        public int Name;
     }
 }
