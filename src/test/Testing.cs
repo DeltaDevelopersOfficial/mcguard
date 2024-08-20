@@ -12,7 +12,7 @@ namespace McGuard.src.test
         public static void Test()
         {
 
-            ServerManager sm = new ServerManager(256, 512, "server.jar", Environment.CurrentDirectory);
+            ServerManager sm = new ServerManager(512, "server.jar", Environment.CurrentDirectory);
 
             sm.CreateServerProcess();
 

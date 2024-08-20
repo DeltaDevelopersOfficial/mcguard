@@ -36,9 +36,8 @@ namespace McGuard.src.core
         /// </summary>
         private OutputHandler outputHandler;
 
-        public ServerManager(int initialMemory, int maximumMemory, string jarName, string workingDirectory)
+        public ServerManager(int maximumMemory, string jarName, string workingDirectory)
         {
-            this.initialMemory = initialMemory;
             this.maximumMemory = maximumMemory;
             this.jarName = jarName;
             this.workingDirectory = workingDirectory;
@@ -54,7 +53,7 @@ namespace McGuard.src.core
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "java.exe",
-                    Arguments = "-Xms" + initialMemory + "M -Xmx" + maximumMemory + "M -jar " + jarName + " nogui",
+                    Arguments = "M -Xmx" + maximumMemory + "M -jar " + jarName + " nogui",
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = false,
