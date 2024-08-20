@@ -1,4 +1,5 @@
 ﻿using McGuard.src.core;
+using McGuard.src.utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace McGuard.src.test
     {
         public static void Test()
         {
+            ConfigManager.LoadConfiguration();
 
             ServerManager sm = new ServerManager(512, "server.jar", Environment.CurrentDirectory);
 
