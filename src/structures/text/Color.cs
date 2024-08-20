@@ -1,6 +1,6 @@
 ﻿namespace McGuard.src.structures.text
 {
-    internal enum MinecraftColors
+    internal enum Color
     {
         Black,
         DarkBlue,
