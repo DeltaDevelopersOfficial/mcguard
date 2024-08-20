@@ -6,7 +6,21 @@ using System.Threading.Tasks;
 
 namespace McGuard.src.structures
 {
-    internal class Configuration
+    internal struct Configuration
     {
+        /// <summary>
+        /// Configuration key
+        /// </summary>
+        public string ConfigKey;
+
+        /// <summary>
+        /// Configuration value
+        /// </summary>
+        public string ConfigVal;
+
+        /// <summary>
+        /// It has no empty value
+        /// </summary>
+        public bool IsSet;
     }
 }
