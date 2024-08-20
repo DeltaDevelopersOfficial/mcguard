@@ -1,6 +1,6 @@
 ﻿namespace McGuard.src.structures.text
 {
-    internal enum Color
+    public enum Color
     {
         Black,
         DarkBlue,

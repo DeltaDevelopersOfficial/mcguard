@@ -1,6 +1,6 @@
 ﻿namespace McGuard.src.structures.text
 {
-    internal enum FontStyle
+    public enum FontStyle
     {
         Bold,
         Italic,
