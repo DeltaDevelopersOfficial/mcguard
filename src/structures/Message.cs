@@ -24,12 +24,18 @@ namespace McGuard.src.structures
         /// </summary>
         public Style Style;
 
-        public Message(string content, long length, Color color, Style style)
+        /// <summary>
+        /// Identify if it is server message
+        /// </summary>
+        public bool IsServerMessage;
+
+        public Message(string content, long length, Color color, Style style, bool isServerMessage)
         {
             this.Content = content;
             this.Length = length;
             this.Color = color;
             this.Style = style;
+            this.IsServerMessage = isServerMessage;
         }
     }
 }
