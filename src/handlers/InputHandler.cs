@@ -1,4 +1,5 @@
 ﻿using McGuard.src.structures;
+using McGuard.src.structures.text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,16 +34,24 @@ namespace McGuard.src.handlers
         /// Sends a message to a player
         /// </summary>
         /// <param name="player">Player to send to</param>
-        /// <param name="message">Message content</param>
-        /// <param name="color">Color of message (white default)</param>
-        /// <param name="isServerMessage">Add server prefix to message</param>
-        public void SendMessageToPlayer(Player player, string message, bool isServerMessage = true, string color = "white")
+        /// <param name="message">Message instance</param>
+        public void SendMessageToPlayer(Player player, Message message)
         {
-            // to avoid presention of " in JSON
-            // replaces " as \"
-            message = message.Replace("\"", "\\\"");
+            var styleMap = new Dictionary<Style, string>
+            {
+                { Style.Bold, "\"bold\":true" },
+                { Style.Italic, "\"italic\":true" },
+                { Style.Underlined, "\"underlined\":true" },
+                { Style.Strikethrough, "\"strikethrough\":true" },
+                { Style.Obfuscated, "\"obfuscated\":true" }
+            };
 
-            process.StandardInput.WriteLine("tellraw " + player.Name + " {\"text\":\"" + (isServerMessage ? "[Server] " : "") + message.Trim() + "\", \"color\":\"" + color + "\"}");
+            string styleJson = string.Join(",", styleMap.Where(kvp => message.Style.HasFlag(kvp.Key) && message.Style != Style.None).Select(kvp => kvp.Value));
+            string escapedContent = message.Content.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\b", "\\b").Replace("\f", "\\f").Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t");
+            string color = message.Color.ToString().ToLower();
+            string json = $"{{\"text\":\"{(message.IsServerMessage ? "[Server] " : "")}{escapedContent}\"," + $"\"color\":\"{color}\"" + $"{(string.IsNullOrEmpty(styleJson) ? "" : $",{styleJson}")}}}";
+
+            process.StandardInput.WriteLine($"tellraw {player.Name} {json}");
         }
     }
 }
