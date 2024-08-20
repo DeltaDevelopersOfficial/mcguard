@@ -7,11 +7,6 @@ namespace McGuard.src.core
     internal class ServerManager
     {
         /// <summary>
-        /// Initial memory for server
-        /// </summary>
-        private readonly int initialMemory;
-
-        /// <summary>
         /// Maximum memory for server
         /// </summary>
         private readonly int maximumMemory;
