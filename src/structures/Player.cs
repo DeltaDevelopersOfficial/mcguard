@@ -8,5 +8,19 @@ namespace McGuard.src.structures
 {
     internal struct Player
     {
+        /// <summary>
+        /// Identificator
+        /// </summary>
+        public int Id;
+
+        /// <summary>
+        /// Player name
+        /// </summary>
+        public string Name;
+
+        /// <summary>
+        /// Player IP address
+        /// </summary>
+        public string IpAddress;
     }
 }
