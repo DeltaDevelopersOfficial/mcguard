@@ -31,6 +31,27 @@ namespace McGuard.src.listeners
                 return true;
             }
 
+            else if (command.Name == "!whoami")
+            {
+                string[] listZprav =
+                {
+                    "",
+                    "Info about you:",
+                    "  Name: " + player.Name,
+                    "  ID: " + player.Id,
+                    "  Location: " + player.PositionX + ", " + player.PositionY + ", " + player.PositionZ,
+                    "  Admin: " + player.IsOpped.ToString().ToLower(),
+                    ""
+                };
+
+                foreach (var zprava in listZprav)
+                {
+                    SendMessageToPlayer(player, new Message(zprava, zprava.Length, structures.text.Color.White, structures.text.Style.None, false));
+                }
+
+                return true;
+            }
+
             return false;
         }
 
