@@ -8,39 +8,42 @@ namespace McGuard.src.utils
     internal class ConfigManager
     {
         /// <summary>
-        /// Path to the directory file
-        /// </summary>
-        private static readonly string configPath = Environment.CurrentDirectory + "\\mcguard.ini";
-
-        /// <summary>
         /// Configuration list
         /// </summary>
         private static List<Configuration> configList = new List<Configuration>();
         
         /// <summary>
-        /// Sample configuration (default)
+        /// Clears the list of configuration.
         /// </summary>
-        private static List<string> sampleConfig = new List<string>()
+        public static void ClearConfiguration()
         {
-            "joinmsg = welcome on my server § visit us at github.com/pavelkalas/mcguard"
-        };
-
-        /// <summary>
-        /// Loads a configuration from file to memory
-        /// </summary>
-        public static void LoadConfiguration()
-        {
-            if (!File.Exists(configPath))
-            {
-                File.WriteAllLines(configPath, sampleConfig);
-            }
-
-            string configContent = File.ReadAllText(configPath);
-
             if (configList.Count > 0)
             {
                 configList.Clear();
             }
+        }
+
+        /// <summary>
+        /// Loads a configuration from file to memory
+        /// </summary>
+        public static void LoadConfiguration(string configPath, List<string> sampleConfig = null)
+        {
+            if (sampleConfig != null)
+            {
+                if (!File.Exists(configPath))
+                {
+                    File.WriteAllLines(configPath, sampleConfig);
+                }
+            }
+            else
+            {
+                if (!File.Exists(configPath))
+                {
+                    File.WriteAllLines(configPath, sampleConfig);
+                }
+            }
+
+            string configContent = File.ReadAllText(configPath);
 
             foreach (var configContext in configContent.Split('\n'))
             {
