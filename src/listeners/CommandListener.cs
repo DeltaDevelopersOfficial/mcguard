@@ -19,12 +19,19 @@ namespace McGuard.src.listeners
         /// <summary>
         /// On player chat command receive
         /// </summary>
-        /// <param name="playerName"></param>
-        /// <param name="issuedCommand"></param>
-        public void OnPlayerCommand(structures.chat.Player player, Command command)
+        /// <param name="player">Player insrance</param>
+        /// <param name="command">Command instance</param>
+        /// <returns>Return TRUE if was command successfully executed</returns>
+        public bool OnPlayerCommand(structures.chat.Player player, Command command)
         {
-            if (command.Name == "test")
+            if (command.Name == "!test")
+            {
                 SendInput("say OK!");
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

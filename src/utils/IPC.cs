@@ -27,7 +27,7 @@ namespace McGuard.src.utils
         public IPC(Process process, string pipeName)
         {
             this.pipeName = pipeName;
-            CommandListener commandListener = new CommandListener(process);
+            this.commandListener = new CommandListener(process);
         }
 
         /// <summary>
@@ -42,7 +42,6 @@ namespace McGuard.src.utils
                     using (NamedPipeServerStream pipeServer = new NamedPipeServerStream(pipeName, PipeDirection.In, 1))
                     {
                         pipeServer.WaitForConnection();
-                        Console.WriteLine("Client connected to stream!");
 
                         using (StreamReader reader = new StreamReader(pipeServer, Encoding.UTF8))
                         {
@@ -93,7 +92,7 @@ namespace McGuard.src.utils
         void HandlePlayerChat(JsonElement root)
         {
             string playerName = root.TryGetProperty("player_name", out JsonElement playerNameElement) ? playerNameElement.GetString() : "Unknown";
-            string playerId = root.TryGetProperty("player_name", out JsonElement playerIdElement) ? playerIdElement.GetString() : "Unknown";
+            string playerId = root.TryGetProperty("player_id", out JsonElement playerIdElement) ? playerIdElement.GetString() : "Unknown";
             string playerMessage = root.TryGetProperty("player_message", out JsonElement playerMessageElement) ? playerMessageElement.GetString() : "No message";
             string playerHasOp = root.TryGetProperty("player_has_op", out JsonElement playerHasOpElement) ? playerHasOpElement.GetString() : "unknown";
             bool isPlayerOpped = playerHasOp.Equals("true", StringComparison.OrdinalIgnoreCase);
@@ -107,12 +106,16 @@ namespace McGuard.src.utils
 
             if (int.TryParse(playerId, out int id))
             {
-                structures.chat.Player player = new structures.chat.Player(id, playerName, coordsX, coordsY, coordsZ, isPlayerFlying, isPlayerOpped);
-
+                
                 if (playerMessage.StartsWith("!"))
                 {
+                    structures.chat.Player player = new structures.chat.Player(id, playerName, coordsX, coordsY, coordsZ, isPlayerFlying, isPlayerOpped);
                     Command command = new Command(playerMessage, playerMessage.Split(' '));
-                    commandListener.OnPlayerCommand(player, command);
+                    
+                    if (!commandListener.OnPlayerCommand(player, command))
+                    {
+                        commandListener.SendMessageToPlayer(player, new Message("Undefined command!", "Undefined command!".Length, structures.text.Color.White, structures.text.Style.None, true));
+                    }
                 }
             }
         }
