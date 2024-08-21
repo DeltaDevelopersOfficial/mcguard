@@ -54,6 +54,11 @@ namespace McGuard.src.handlers
             process.StandardInput.WriteLine($"tellraw {player.Name} {json}");
         }
 
+        /// <summary>
+        /// Send message to Player
+        /// </summary>
+        /// <param name="player">Chat Player instance</param>
+        /// <param name="message">Message instance</param>
         public void SendMessageToPlayer(structures.chat.Player player, Message message)
         {
             var styleMap = new Dictionary<Style, string>
@@ -73,6 +78,10 @@ namespace McGuard.src.handlers
             process.StandardInput.WriteLine($"tellraw {player.Name} {json}");
         }
 
+        /// <summary>
+        /// Send message to all players
+        /// </summary>
+        /// <param name="message">Message instance</param>
         public void SendMessageToAll(Message message)
         {
             var styleMap = new Dictionary<Style, string>
