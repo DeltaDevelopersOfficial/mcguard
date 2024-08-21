@@ -24,14 +24,19 @@ namespace McGuard.src.listeners
         /// <returns>Return TRUE if was command successfully executed</returns>
         public bool OnPlayerCommand(structures.chat.Player player, Command command)
         {
-            if (command.Name == "!test")
+            if (command.Name == "!killme")
             {
-                SendInput("say OK!");
+                SendInput("kill " + player.Name);
 
                 return true;
             }
 
             return false;
+        }
+
+        public void OnPlayerMessage(Message message)
+        {
+            SendMessageToAll(message);
         }
     }
 }
