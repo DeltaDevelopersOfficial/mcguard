@@ -6,22 +6,20 @@ import java.io.OutputStream;
 
 public class IPC {
 
-	/*
+	/**
 	 * Process ID as named pipe path
 	 */
-	private final int processId;
+	private final String pipeName;
 	
-	public IPC(int processId) {
-		this.processId = processId;
+	public IPC(String pipeName) {
+		this.pipeName = pipeName;
 	}
 	
-	/*
+	/**
 	 * Sends a data string to pipe
 	 */
 	public void sendToPipe(String pipeMessage) {
-		String pipeName = "\\\\.\\pipe\\" + processId;
-        
-		try (OutputStream outputStream = new FileOutputStream(pipeName)) {
+		try (OutputStream outputStream = new FileOutputStream( "\\\\.\\pipe\\" + pipeName)) {
             outputStream.write(pipeMessage.getBytes());
             outputStream.flush();
         } catch (IOException e) {
