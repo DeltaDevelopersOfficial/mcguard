@@ -1,0 +1,3 @@
+name: McGuardInjector
+main: cz.pavelkalas.core.Startup
+version: 1.0
