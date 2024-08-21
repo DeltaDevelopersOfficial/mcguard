@@ -52,6 +52,39 @@ namespace McGuard.src.listeners
                 return true;
             }
 
+            else if ( command.Name == "!help")
+            {
+                if (player.IsOpped)
+                {
+                    string[] listZprav =
+                    {
+                        "",
+                        "Available commands:",
+                        " for everyone:",
+                        "   !killme",
+                        "   !whoami",
+                        "",
+                        " for admins:",
+                        "   !help",
+                        "",
+                    };
+
+                    foreach (var zprava in listZprav)
+                    {
+                        SendMessageToPlayer(player, new Message(zprava, zprava.Length, structures.text.Color.White, structures.text.Style.None, false));
+                    }
+
+                    return true;
+                }
+                else
+                {
+                    string msg = "Insufficient administrator privileges";
+                    SendMessageToPlayer(player, new Message(msg, msg.Length, structures.text.Color.White, structures.text.Style.None, true));
+                }
+
+                return true;
+            }
+
             return false;
         }
 
