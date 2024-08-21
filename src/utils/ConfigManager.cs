@@ -47,9 +47,9 @@ namespace McGuard.src.utils
 
             foreach (var configContext in configContent.Split('\n'))
             {
-                if (configContent.Trim().Length > 0 && configContent.Contains("="))
+                if (configContext.Trim().Length > 0 && configContext.Contains("="))
                 {
-                    string[] configArgs = configContent.Split('=');
+                    string[] configArgs = configContext.Split('=');
 
                     string configKey = configArgs[0].Trim();
                     string configVal = configArgs[1].Trim();
