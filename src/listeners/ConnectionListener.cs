@@ -30,7 +30,8 @@ namespace McGuard.src.listeners
         {
             foreach (var singleMessage in joinMessage)
             {
-                SendMessageToPlayer(player, new Message(singleMessage, singleMessage.Length, structures.text.Color.White, structures.text.Style.None, true));
+                string msg = singleMessage.Trim();
+                SendMessageToPlayer(player, new Message(msg, msg.Length, structures.text.Color.White, structures.text.Style.None, true));
             }
         }
     }
