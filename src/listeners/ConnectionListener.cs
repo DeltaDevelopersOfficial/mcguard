@@ -28,10 +28,18 @@ namespace McGuard.src.listeners
         /// <param name="player">Player instance</param>
         public void OnPlayerConnection(Player player)
         {
-            foreach (var singleMessage in joinMessage)
+            if (joinMessage.Length > 0)
             {
-                string msg = singleMessage.Trim();
-                SendMessageToPlayer(player, new Message(msg, msg.Length, structures.text.Color.White, structures.text.Style.None, true));
+                foreach (var singleMessage in joinMessage)
+                {
+                    string msg = singleMessage.Trim();
+                    int len = msg.Length;
+
+                    if (len > 0)
+                    {
+                        SendMessageToPlayer(player, new Message(msg, len, structures.text.Color.White, structures.text.Style.None, true));
+                    }
+                }
             }
         }
     }
