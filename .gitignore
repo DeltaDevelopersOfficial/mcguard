@@ -3,3 +3,9 @@ bin/
 .vs/
 .git/
 src/test/
+packages/
+McGuardInjector/.settings/
+McGuardInjector/bin/
+McGuardInjector/.classpath
+McGuardInjector/.project
+packages.config
