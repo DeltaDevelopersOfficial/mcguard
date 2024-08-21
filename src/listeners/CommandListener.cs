@@ -1,4 +1,6 @@
 ﻿using McGuard.src.handlers;
+using McGuard.src.structures;
+using McGuard.src.structures.chat;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,9 +21,9 @@ namespace McGuard.src.listeners
         /// </summary>
         /// <param name="playerName"></param>
         /// <param name="issuedCommand"></param>
-        public void OnPlayerCommand(string playerName, string issuedCommand)
+        public void OnPlayerCommand(structures.chat.Player player, Command command)
         {
-            if (issuedCommand == "test")
+            if (command.Name == "test")
                 SendInput("say OK!");
         }
     }
