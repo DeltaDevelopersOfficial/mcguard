@@ -58,6 +58,7 @@
     <Compile Include="src\structures\World.cs" />
     <Compile Include="src\test\Testing.cs" />
     <Compile Include="src\utils\ConfigManager.cs" />
+    <Compile Include="src\utils\IPC.cs" />
     <Compile Include="src\utils\JavaChecker.cs" />
     <Compile Include="src\utils\ProcessUtil.cs" />
   </ItemGroup>
