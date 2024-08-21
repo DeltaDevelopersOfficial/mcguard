@@ -9,6 +9,7 @@ using System.Text.Json;
 using McGuard.src.listeners;
 using System.Diagnostics;
 using McGuard.src.structures;
+using McGuard.src.structures.chat;
 
 namespace McGuard.src.utils
 {
@@ -106,16 +107,21 @@ namespace McGuard.src.utils
 
             if (int.TryParse(playerId, out int id))
             {
-                
+                structures.chat.Player player = new structures.chat.Player(id, playerName, coordsX, coordsY, coordsZ, isPlayerFlying, isPlayerOpped);
+
                 if (playerMessage.StartsWith("!"))
                 {
-                    structures.chat.Player player = new structures.chat.Player(id, playerName, coordsX, coordsY, coordsZ, isPlayerFlying, isPlayerOpped);
-                    Command command = new Command(playerMessage, playerMessage.Split(' '));
+                   Command command = new Command(playerMessage, playerMessage.Split(' '));
                     
                     if (!commandListener.OnPlayerCommand(player, command))
                     {
                         commandListener.SendMessageToPlayer(player, new Message("Undefined command!", "Undefined command!".Length, structures.text.Color.White, structures.text.Style.None, true));
                     }
+                }
+                else
+                {
+                    string msg = "<" + playerName + "> " + playerMessage;
+                    commandListener.OnPlayerMessage(player, new Message(msg, msg.Length, structures.text.Color.White, structures.text.Style.None, false));
                 }
             }
         }
