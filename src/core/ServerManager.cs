@@ -1,6 +1,8 @@
 ﻿using McGuard.src.handlers;
+using McGuard.src.utils;
 using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace McGuard.src.core
 {
@@ -63,6 +65,9 @@ namespace McGuard.src.core
             serverProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => outputHandler.OnDataReceive(e);
 
             this.outputHandler = new OutputHandler(serverProcess);
+
+            IPC ipc = new IPC(serverProcess, ConfigManager.GetValueByKey("server-port"));
+            new Thread(ipc.Start).Start();
 
             while (true)
             {
