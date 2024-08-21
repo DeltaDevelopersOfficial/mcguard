@@ -101,9 +101,9 @@ namespace McGuard.src.utils
             string playerFlying = root.TryGetProperty("player_flying", out JsonElement playerFlyingElement) ? playerFlyingElement.GetString() : "unknown";
             bool isPlayerFlying = playerFlying.Equals("true", StringComparison.OrdinalIgnoreCase);
 
-            double coordsX = double.TryParse(root.TryGetProperty("coords_x", out JsonElement coordsXElement) ? coordsXElement.GetString() : "0", out double tempX) ? tempX : 0;
-            double coordsY = double.TryParse(root.TryGetProperty("coords_y", out JsonElement coordsYElement) ? coordsYElement.GetString() : "0", out double tempY) ? tempY : 0;
-            double coordsZ = double.TryParse(root.TryGetProperty("coords_z", out JsonElement coordsZElement) ? coordsZElement.GetString() : "0", out double tempZ) ? tempZ : 0;
+            double coordsX = int.Parse(root.GetProperty("coords_x").ToString().Split('.')[0].Trim());
+            double coordsY = int.Parse(root.GetProperty("coords_y").ToString().Split('.')[0].Trim());
+            double coordsZ = int.Parse(root.GetProperty("coords_z").ToString().Split('.')[0].Trim());
 
             if (int.TryParse(playerId, out int id))
             {
