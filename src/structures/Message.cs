@@ -5,19 +5,9 @@ namespace McGuard.src.structures
     internal struct Message
     {
         /// <summary>
-        /// Help variable for getter and setter
-        /// </summary>
-        private string _content;
-
-        /// <summary>
         /// Content of the message
         /// </summary>
-        public string Content
-        {
-            get => _content;
-            private set => _content = value.Trim();
-        }
-
+        public string Content { get; private set; }
         /// <summary>
         /// Message length
         /// </summary>
@@ -40,7 +30,7 @@ namespace McGuard.src.structures
 
         public Message(string content, long length, Color color, Style style, bool isServerMessage)
         {
-            _content = content?.Trim() ?? string.Empty;
+            this.Content = content;
             this.Length = length;
             this.Color = color;
             this.Style = style;
