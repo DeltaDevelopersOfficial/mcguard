@@ -121,7 +121,7 @@ namespace McGuard.src.utils
                 else
                 {
                     string msg = "<" + playerName + "> " + playerMessage;
-                    commandListener.OnPlayerMessage(player, new Message(msg, msg.Length, structures.text.Color.White, structures.text.Style.None, false));
+                    commandListener.OnPlayerMessage(new Message(msg, msg.Length, structures.text.Color.White, structures.text.Style.None, false));
                 }
             }
         }
