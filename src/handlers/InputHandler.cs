@@ -72,5 +72,26 @@ namespace McGuard.src.handlers
 
             process.StandardInput.WriteLine($"tellraw {player.Name} {json}");
         }
+
+        public void SendMessageToAll(Message message)
+        {
+            var styleMap = new Dictionary<Style, string>
+            {
+                { Style.Bold, "\"bold\":true" },
+                { Style.Italic, "\"italic\":true" },
+                { Style.Underlined, "\"underlined\":true" },
+                { Style.Strikethrough, "\"strikethrough\":true" },
+                { Style.Obfuscated, "\"obfuscated\":true" }
+            };
+
+            string styleJson = string.Join(",", styleMap.Where(kvp => message.Style.HasFlag(kvp.Key) && message.Style != Style.None).Select(kvp => kvp.Value));
+            string escapedContent = message.Content.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\b", "\\b").Replace("\f", "\\f").Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t");
+            string color = message.Color.ToString().ToLower();
+            string json = $"{{\"text\":\"{(message.IsServerMessage ? "[Server] " : "")}{escapedContent}\"," + $"\"color\":\"{color}\"" + $"{(string.IsNullOrEmpty(styleJson) ? "" : $",{styleJson}")}}}";
+
+            process.StandardInput.WriteLine($"tellraw @a {json}");
+        }
+
+
     }
 }
