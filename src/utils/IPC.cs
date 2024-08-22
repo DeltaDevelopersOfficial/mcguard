@@ -75,6 +75,10 @@ namespace McGuard.src.utils
             }
         }
 
+        /// <summary>
+        /// Parse dynamic JSON string
+        /// </summary>
+        /// <param name="jsonString"></param>
         void ProcessDynamicJson(string jsonString)
         {
             using (JsonDocument doc = JsonDocument.Parse(jsonString))
@@ -95,6 +99,10 @@ namespace McGuard.src.utils
                             HandlePlayerJoin(root);
                             break;
 
+                        case "handle_playerquit":
+                            HandlePlayerQuit(root);
+                            break;
+
                         default:
                             Console.WriteLine("Unknown action");
                             break;
@@ -107,6 +115,10 @@ namespace McGuard.src.utils
             }
         }
 
+        /// <summary>
+        /// Handle player join server
+        /// </summary>
+        /// <param name="root">JSON element</param>
         void HandlePlayerJoin(JsonElement root)
         {
             string playerName = root.TryGetProperty("player_name", out JsonElement playerNameElement) ? playerNameElement.GetString() : "Unknown";
@@ -127,6 +139,28 @@ namespace McGuard.src.utils
             }
         }
 
+        /// <summary>
+        /// Handle player quit server
+        /// </summary>
+        /// <param name="root">JSON element</param>
+        void HandlePlayerQuit(JsonElement root)
+        {
+            string playerName = root.TryGetProperty("player_name", out JsonElement playerNameElement) ? playerNameElement.GetString() : "Unknown";
+            string playerId = root.TryGetProperty("player_id", out JsonElement playerIdElement) ? playerIdElement.GetString() : "Unknown";
+            
+            if (int.TryParse(playerId, out int id))
+            {
+                foreach (var player in PlayerManager.FindPlayer(playerName))
+                {
+                    PlayerManager.RemovePlayer(player);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handle player chat entry
+        /// </summary>
+        /// <param name="root">JSON element</param>
         void HandlePlayerChat(JsonElement root)
         {
             string playerName = root.TryGetProperty("player_name", out JsonElement playerNameElement) ? playerNameElement.GetString() : "Unknown";
