@@ -71,7 +71,7 @@ namespace McGuard.src.handlers
                         if (double.TryParse(xCoordString, NumberStyles.Float, CultureInfo.InvariantCulture, out double xCoord) && double.TryParse(yCoordString, NumberStyles.Float, CultureInfo.InvariantCulture, out double yCoord) && double.TryParse(zCoordString, NumberStyles.Float, CultureInfo.InvariantCulture, out double zCoord))
                         {
                             Player player = new Player(entityId, playerName, ipAddress, xCoord, yCoord, zCoord);
-                            connectionListener.OnPlayerConnection(player);
+                            // connectionListener.OnPlayerConnection(player);
                         }
                     }
                     else
