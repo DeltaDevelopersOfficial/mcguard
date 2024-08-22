@@ -1,4 +1,5 @@
 ﻿using McGuard.src.content;
+using McGuard.src.core;
 using McGuard.src.handlers;
 using McGuard.src.structures;
 using McGuard.src.structures.chat;
@@ -13,8 +14,11 @@ namespace McGuard.src.listeners
 {
     internal class CommandListener : InputHandler
     {
-        public CommandListener(Process process) : base(process)
+        private PlayerManager playerManager;
+
+        public CommandListener(Process process, PlayerManager playerManager) : base(process)
         {
+            this.playerManager = playerManager;
         }
 
         /// <summary>
@@ -53,7 +57,7 @@ namespace McGuard.src.listeners
                 return true;
             }
 
-            else if ( command.Name == "!help")
+            else if (command.Name == "!help")
             {
                 if (player.IsOpped)
                 {
@@ -76,6 +80,20 @@ namespace McGuard.src.listeners
                     }
 
                     return true;
+                }
+                else
+                {
+                    SendMessageToPlayer(player, new Message(StringManager.GetString(0), StringManager.GetString(0).Length, structures.text.Color.White, structures.text.Style.None, true));
+                }
+
+                return true;
+            }
+
+            else if (command.Name.Contains("!kick"))
+            {
+                if (player.IsOpped)
+                {
+                    SendInput("kick " + command.Arguments[1]);
                 }
                 else
                 {
