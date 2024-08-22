@@ -1,4 +1,5 @@
-﻿using McGuard.src.handlers;
+﻿using McGuard.src.content;
+using McGuard.src.handlers;
 using McGuard.src.structures;
 using McGuard.src.utils;
 using System;
@@ -28,6 +29,10 @@ namespace McGuard.src.listeners
         /// <param name="player">Player instance</param>
         public void OnPlayerConnection(Player player)
         {
+            SendMessageToAll(new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
+            SendMessageToAll(new Message("> " + StringManager.GetString(4), StringManager.GetString(4).Length, structures.text.Color.Gray, structures.text.Style.Bold, false));
+            SendMessageToAll(new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
+
             if (joinMessage.Length > 0)
             {
                 foreach (var singleMessage in joinMessage)
@@ -40,7 +45,11 @@ namespace McGuard.src.listeners
                         SendMessageToPlayer(player, new Message(msg, len, structures.text.Color.White, structures.text.Style.None, true));
                     }
                 }
+
+                SendMessageToAll(new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
             }
+
+            SendMessageToAll(new Message(StringManager.GetString(3).Replace("%s", player.Name), StringManager.GetString(3).Replace("%s", player.Name).Length, structures.text.Color.Gold, structures.text.Style.Italic, false));
         }
     }
 }
