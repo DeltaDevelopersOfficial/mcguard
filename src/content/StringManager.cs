@@ -13,6 +13,8 @@ namespace McGuard.src.content
         public static void Setup()
         {
             AddString("Insufficient administrator privileges");
+            AddString("OK");
+            AddString("No players found");
         }
 
         /// <summary>
