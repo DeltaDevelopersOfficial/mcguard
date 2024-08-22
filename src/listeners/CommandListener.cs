@@ -1,4 +1,5 @@
-﻿using McGuard.src.handlers;
+﻿using McGuard.src.content;
+using McGuard.src.handlers;
 using McGuard.src.structures;
 using McGuard.src.structures.chat;
 using System;
@@ -78,8 +79,7 @@ namespace McGuard.src.listeners
                 }
                 else
                 {
-                    string msg = "Insufficient administrator privileges";
-                    SendMessageToPlayer(player, new Message(msg, msg.Length, structures.text.Color.White, structures.text.Style.None, true));
+                    SendMessageToPlayer(player, new Message(StringManager.GetString(0), StringManager.GetString(0).Length, structures.text.Color.White, structures.text.Style.None, true));
                 }
 
                 return true;
