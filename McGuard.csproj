@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\core\PlayerManager.cs" />
     <Compile Include="src\core\ServerManager.cs" />
     <Compile Include="src\handlers\InputHandler.cs" />
     <Compile Include="src\handlers\OutputHandler.cs" />
