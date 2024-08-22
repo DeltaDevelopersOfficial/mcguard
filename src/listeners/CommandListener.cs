@@ -16,9 +16,9 @@ namespace McGuard.src.listeners
     {
         private PlayerManager playerManager;
 
-        public CommandListener(Process process, PlayerManager playerManager) : base(process)
+        public CommandListener(Process process) : base(process)
         {
-            this.playerManager = playerManager;
+            this.playerManager = new PlayerManager();
         }
 
         /// <summary>
