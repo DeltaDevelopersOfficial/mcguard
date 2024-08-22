@@ -38,6 +38,8 @@ public class ConnectionListener implements Listener {
         data.put("coords_y", "" + location.getY());
         data.put("coords_z", "" + location.getZ());
         data.put("player_id", "" + player.getEntityId());
+        data.put("player_ip", "" + player.getAddress().getAddress());
+        
         
         ipc.sendToPipe(JsonObject.convertToJson(data));
 	}
