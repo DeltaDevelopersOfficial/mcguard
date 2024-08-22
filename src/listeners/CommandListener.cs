@@ -88,8 +88,15 @@ namespace McGuard.src.listeners
             return false;
         }
 
+        /// <summary>
+        /// On player chat message receive
+        /// </summary>
+        /// <param name="message"></param>
         public void OnPlayerMessage(Message message)
         {
+            //
+            // send message to all other players
+            //
             SendMessageToAll(message);
         }
     }
