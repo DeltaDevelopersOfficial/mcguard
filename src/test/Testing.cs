@@ -1,4 +1,5 @@
-﻿using McGuard.src.core;
+﻿using McGuard.src.content;
+using McGuard.src.core;
 using McGuard.src.utils;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace McGuard.src.test
         {
             ConfigManager.LoadConfiguration("mcguard.ini");
             ConfigManager.LoadConfiguration("server.properties");
+
+            StringManager.Setup();
 
             ServerManager sm = new ServerManager(256, "server.jar", Environment.CurrentDirectory);
             sm.CreateServerProcess();
