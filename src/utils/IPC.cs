@@ -122,9 +122,8 @@ namespace McGuard.src.utils
             if (int.TryParse(playerId, out int id))
             {
                 structures.Player player = new structures.Player(id, playerName, playerIp, coordsX, coordsY, coordsZ);
-                playerManager.AddPlayer(player);
+                PlayerManager.AddPlayer(player);
                 connectionListener.OnPlayerConnection(player);
-                Console.WriteLine("played added to list");
             }
         }
 
