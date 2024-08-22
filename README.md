@@ -16,7 +16,7 @@
      - You can use any of game command
      - You will be able to use TIMEOUT for sleep delay in these scripts.
      - May i will add variables, functions (like custom programming language)
-<br>
+
 - Add better security and bug/crash fixes
    - Fix all possible security holes (also under version 1.8)
    - Fix **slow server** world loading
