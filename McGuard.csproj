@@ -78,6 +78,7 @@
     <Compile Include="src\listeners\ConnectionListener.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\content\StringManager.cs" />
     <Compile Include="src\structures\chat\Player.cs" />
     <Compile Include="src\structures\Command.cs" />
     <Compile Include="src\structures\Configuration.cs" />
