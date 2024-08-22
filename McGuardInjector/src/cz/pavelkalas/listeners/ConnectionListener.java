@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import cz.pavelkalas.utils.IPC;
 import cz.pavelkalas.utils.JsonObject;
@@ -40,6 +41,23 @@ public class ConnectionListener implements Listener {
         data.put("player_id", "" + player.getEntityId());
         data.put("player_ip", "" + player.getAddress().getAddress());
         
+        
+        ipc.sendToPipe(JsonObject.convertToJson(data));
+	}
+	
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent playerEvent) {
+		playerEvent.setQuitMessage(null);
+		Player player = playerEvent.getPlayer();
+		
+		HashMap<String, String> data = new HashMap<>();
+        
+		// action
+		data.put("action", "handle_playerquit");
+		
+		// data of action
+		data.put("player_name", player.getName());
+        data.put("player_id", "" + player.getEntityId());
         
         ipc.sendToPipe(JsonObject.convertToJson(data));
 	}
