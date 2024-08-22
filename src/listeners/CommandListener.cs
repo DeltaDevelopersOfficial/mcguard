@@ -14,11 +14,8 @@ namespace McGuard.src.listeners
 {
     internal class CommandListener : InputHandler
     {
-        private PlayerManager playerManager;
-
         public CommandListener(Process process) : base(process)
         {
-            this.playerManager = new PlayerManager();
         }
 
         /// <summary>
@@ -66,11 +63,12 @@ namespace McGuard.src.listeners
                         "",
                         "Available commands:",
                         " for everyone:",
-                        "   !killme",
-                        "   !whoami",
+                        "   !killme - Kills you",
+                        "   !whoami - Show information about you",
                         "",
                         " for admins:",
-                        "   !help",
+                        "   !help - Show all available commands",
+                        "   !kick [name] - Kicks player from server",
                         "",
                     };
 
@@ -91,9 +89,19 @@ namespace McGuard.src.listeners
 
             else if (command.Name.Contains("!kick"))
             {
+                List<structures.Player> selectedPlayers = PlayerManager.FindPlayer(command.Arguments[1]);
+
                 if (player.IsOpped)
                 {
-                    SendInput("kick " + command.Arguments[1]);
+                    if (selectedPlayers.Count > 0)
+                    {
+                        SendMessageToPlayer(player, new Message(StringManager.GetString(1), StringManager.GetString(1).Length, structures.text.Color.White, structures.text.Style.None, true));
+                        SendInput("kick " + command.Arguments[1]);
+                    }
+                    else
+                    {
+                        SendMessageToPlayer(player, new Message(StringManager.GetString(2), StringManager.GetString(2).Length, structures.text.Color.White, structures.text.Style.None, true));
+                    }
                 }
                 else
                 {
