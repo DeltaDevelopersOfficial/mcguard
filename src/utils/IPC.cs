@@ -10,6 +10,7 @@ using McGuard.src.listeners;
 using System.Diagnostics;
 using McGuard.src.structures;
 using McGuard.src.structures.chat;
+using McGuard.src.core;
 
 namespace McGuard.src.utils
 {
@@ -25,10 +26,22 @@ namespace McGuard.src.utils
         /// </summary>
         private CommandListener commandListener;
 
+        /// <summary>
+        /// Player manager instance
+        /// </summary>
+        private PlayerManager playerManager;
+
+        /// <summary>
+        /// Connection listener instance
+        /// </summary>
+        private ConnectionListener connectionListener;
+
         public IPC(Process process, string pipeName)
         {
             this.pipeName = pipeName;
             this.commandListener = new CommandListener(process);
+            this.playerManager = new PlayerManager();
+            this.connectionListener = new ConnectionListener(process);
         }
 
         /// <summary>
@@ -78,6 +91,10 @@ namespace McGuard.src.utils
                             HandlePlayerChat(root);
                             break;
 
+                        case "handle_playerjoin":
+                            HandlePlayerJoin(root);
+                            break;
+
                         default:
                             Console.WriteLine("Unknown action");
                             break;
@@ -87,6 +104,27 @@ namespace McGuard.src.utils
                 {
                     Console.WriteLine("No action key found in JSON.");
                 }
+            }
+        }
+
+        void HandlePlayerJoin(JsonElement root)
+        {
+            string playerName = root.TryGetProperty("player_name", out JsonElement playerNameElement) ? playerNameElement.GetString() : "Unknown";
+            string playerId = root.TryGetProperty("player_id", out JsonElement playerIdElement) ? playerIdElement.GetString() : "Unknown";
+            string playerIp = root.TryGetProperty("player_ip", out JsonElement playerIpElement) ? playerIpElement.GetString() : "Unknown";
+            string playerHasOp = root.TryGetProperty("player_has_op", out JsonElement playerHasOpElement) ? playerHasOpElement.GetString() : "unknown";
+            bool isPlayerOpped = playerHasOp.Equals("true", StringComparison.OrdinalIgnoreCase);
+
+            double coordsX = int.Parse(root.GetProperty("coords_x").ToString().Split('.')[0].Trim());
+            double coordsY = int.Parse(root.GetProperty("coords_y").ToString().Split('.')[0].Trim());
+            double coordsZ = int.Parse(root.GetProperty("coords_z").ToString().Split('.')[0].Trim());
+
+            if (int.TryParse(playerId, out int id))
+            {
+                structures.Player player = new structures.Player(id, playerName, playerIp, coordsX, coordsY, coordsZ);
+                playerManager.AddPlayer(player);
+                connectionListener.OnPlayerConnection(player);
+                Console.WriteLine("played added to list");
             }
         }
 
