@@ -42,9 +42,9 @@ namespace McGuard.src.core
         /// Tries to find a player in list
         /// </summary>
         /// <param name="playerName">Player instance</param>
-        public static Player FindPlayer(string playerName)
+        public static List<Player> FindPlayer(string playerName)
         {
-            return playerList.Where(p => p.Name == playerName).Select(p => p).First();
+            return playerList.Where(p => p.Name == playerName).Select(p => p).ToList();
         }
     }
 }
