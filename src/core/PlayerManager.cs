@@ -12,13 +12,13 @@ namespace McGuard.src.core
         /// <summary>
         /// List of players
         /// </summary>
-        private List<Player> playerList = new List<Player>();
+        private static List<Player> playerList = new List<Player>();
 
         /// <summary>
         /// Adds player to list
         /// </summary>
         /// <param name="player">Player instance</param>
-        public void AddPlayer(Player player)
+        public static void AddPlayer(Player player)
         {
             if (!playerList.Contains(player))
             {
@@ -30,7 +30,7 @@ namespace McGuard.src.core
         /// Removes player from list
         /// </summary>
         /// <param name="player"></param>
-        public void RemovePlayer(Player player)
+        public static void RemovePlayer(Player player)
         {
             if (playerList.Contains(player))
             {
@@ -42,7 +42,7 @@ namespace McGuard.src.core
         /// Tries to find a player in list
         /// </summary>
         /// <param name="playerName">Player instance</param>
-        public Player FindPlayer(string playerName)
+        public static Player FindPlayer(string playerName)
         {
             return playerList.Where(p => p.Name == playerName).Select(p => p).First();
         }
