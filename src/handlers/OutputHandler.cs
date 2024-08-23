@@ -23,8 +23,6 @@ namespace McGuard.src.handlers
         /// </summary>
         private ConnectionListener connectionListener;
 
-        private readonly char commandPrefix = '!';
-
         public OutputHandler(Process serverProcess)
         {
             this.commandListener = new CommandListener(serverProcess);
