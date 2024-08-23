@@ -21,6 +21,7 @@ namespace McGuard.src.content
             AddString(6, "Macro macros/%s not found.");
             AddString(7, "Macro macros/%s does not contain any commands.");
             AddString(8, "Missing arguments");
+            AddString(9, "McGuard v1.0 active");
         }
 
         /// <summary>
