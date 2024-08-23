@@ -1,4 +1,5 @@
-﻿using McGuard.src.handlers;
+﻿using McGuard.src.core.providers;
+using McGuard.src.handlers;
 using McGuard.src.utils;
 using System;
 using System.Diagnostics;
@@ -33,6 +34,11 @@ namespace McGuard.src.core
         /// </summary>
         private OutputHandler outputHandler;
 
+        /// <summary>
+        /// Macro provider instance
+        /// </summary>
+        private MacroProvider macroProvider;
+
         public ServerManager(int maximumMemory, string jarName, string workingDirectory)
         {
             this.maximumMemory = maximumMemory;
@@ -62,14 +68,14 @@ namespace McGuard.src.core
             serverProcess.Start();
             serverProcess.BeginOutputReadLine();
 
-            serverProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => outputHandler.OnDataReceive(e);
-
             this.outputHandler = new OutputHandler(serverProcess);
 
             IPC ipc = new IPC(serverProcess, ConfigManager.GetValueByKey("server-port"));
             new Thread(ipc.Start).Start();
 
-            while (true)
+            serverProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => outputHandler.OnDataReceive(e);
+
+            while (!serverProcess.HasExited)
             {
                 string command = Console.ReadLine();
                 serverProcess.StandardInput.WriteLine(command);
