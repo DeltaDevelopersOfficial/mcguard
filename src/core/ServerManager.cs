@@ -34,11 +34,6 @@ namespace McGuard.src.core
         /// </summary>
         private OutputHandler outputHandler;
 
-        /// <summary>
-        /// Macro provider instance
-        /// </summary>
-        private MacroProvider macroProvider;
-
         public ServerManager(int maximumMemory, string jarName, string workingDirectory)
         {
             this.maximumMemory = maximumMemory;
