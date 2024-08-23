@@ -37,51 +37,7 @@ namespace McGuard.src.handlers
         /// <param name="dataReceivedEventArgs"></param>
         public void OnDataReceive(DataReceivedEventArgs dataReceivedEventArgs)
         {
-            if (dataReceivedEventArgs != null && dataReceivedEventArgs.Data != null)
-            {
-                string outputData = dataReceivedEventArgs.Data.Trim();
-
-                if (outputData.Contains("<") && outputData.Contains(">") && outputData.Contains("> " + commandPrefix))
-                {
-                    string playerName = outputData.Split(new[] { "> " + commandPrefix }, StringSplitOptions.None)[1].Trim();
-                    string issuedCommand = outputData.Split(new[] { "> " + commandPrefix }, StringSplitOptions.None)[1].Trim();
-
-                    // this.commandListener.OnPlayerCommand(playerName, issuedCommand);
-
-                    return;
-                }
-                else if (outputData.Contains("logged in"))
-                {
-                    string pattern = @"(?<playerName>\w+)\[/((?<ipAddress>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|.+?):\d+\] logged in with entity id (?<entityId>\d+) at \(\[(?<worldName>\w+)\]\s*(?<xCoord>-?\d+(\.\d+)?),\s*(?<yCoord>-?\d+(\.\d+)?),\s*(?<zCoord>-?\d+(\.\d+)?)\)";
-                    
-                    Regex regex = new Regex(pattern);
-
-                    Match match = regex.Match(outputData);
-
-                    if (match.Success)
-                    {
-                        string playerName = match.Groups["playerName"].Value;
-                        string ipAddress = match.Groups["ipAddress"].Value;
-                        int entityId = int.Parse(match.Groups["entityId"].Value);
-
-                        string xCoordString = match.Groups["xCoord"].Value;
-                        string yCoordString = match.Groups["yCoord"].Value;
-                        string zCoordString = match.Groups["zCoord"].Value;
-
-                        if (double.TryParse(xCoordString, NumberStyles.Float, CultureInfo.InvariantCulture, out double xCoord) && double.TryParse(yCoordString, NumberStyles.Float, CultureInfo.InvariantCulture, out double yCoord) && double.TryParse(zCoordString, NumberStyles.Float, CultureInfo.InvariantCulture, out double zCoord))
-                        {
-                            Player player = new Player(entityId, playerName, ipAddress, xCoord, yCoord, zCoord);
-                            // connectionListener.OnPlayerConnection(player);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("The log entry did not match the expected format.");
-                    }
-                }
-
-                Console.WriteLine(outputData);
-            }
+            Console.WriteLine(dataReceivedEventArgs?.Data);
         }
     }
 }
