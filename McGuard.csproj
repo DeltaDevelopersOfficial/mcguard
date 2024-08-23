@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\core\PlayerManager.cs" />
+    <Compile Include="src\core\providers\MacroProvider.cs" />
     <Compile Include="src\core\ServerManager.cs" />
     <Compile Include="src\handlers\InputHandler.cs" />
     <Compile Include="src\handlers\OutputHandler.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="src\structures\chat\Player.cs" />
     <Compile Include="src\structures\Command.cs" />
     <Compile Include="src\structures\Configuration.cs" />
+    <Compile Include="src\structures\Macro.cs" />
     <Compile Include="src\structures\Message.cs" />
     <Compile Include="src\structures\Player.cs" />
     <Compile Include="src\structures\text\Color.cs" />
