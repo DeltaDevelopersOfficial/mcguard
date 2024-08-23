@@ -15,11 +15,20 @@ namespace McGuard.src.listeners
 {
     internal class CommandListener : InputHandler
     {
+        /// <summary>
+        /// Process instance
+        /// </summary>
         private Process process;
+
+        /// <summary>
+        /// Startup of server
+        /// </summary>
+        private DateTime startupTime;
 
         public CommandListener(Process process) : base(process)
         {
             this.process = process;
+            this.startupTime = DateTime.Now;
         }
 
         /// <summary>
@@ -39,6 +48,40 @@ namespace McGuard.src.listeners
             if (command.Name == "!killme")
             {
                 SendInput("kill " + player.Name);
+
+                return true;
+            }
+
+            //
+            // !info
+            //
+            // Shows you quick information about server
+            //
+            if (command.Name == "!info")
+            {
+                TimeSpan difference = DateTime.Now - startupTime;
+
+                int totalDays = difference.Days;
+                int totalHours = (int)difference.TotalHours;
+                int totalMinutes = (int)difference.TotalMinutes;
+
+                int days = totalDays;
+                int hours = totalHours % 24;
+                int minutes = totalMinutes % 60;
+
+                string[] listZprav =
+                {
+                    "",
+                    "Server info:",
+                    "  Server tool: " + StringManager.GetString(9),
+                    "  Uptime: " + days + " days " + hours + " hours " + minutes + " minutes",
+                    ""
+                };
+
+                foreach (var zprava in listZprav)
+                {
+                    SendMessageToPlayer(player, new Message(zprava, zprava.Length, structures.text.Color.White, structures.text.Style.None, false));
+                }
 
                 return true;
             }
