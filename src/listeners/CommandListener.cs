@@ -1,5 +1,6 @@
 ﻿using McGuard.src.content;
 using McGuard.src.core;
+using McGuard.src.core.providers;
 using McGuard.src.handlers;
 using McGuard.src.structures;
 using McGuard.src.structures.chat;
@@ -14,8 +15,11 @@ namespace McGuard.src.listeners
 {
     internal class CommandListener : InputHandler
     {
+        private Process process;
+
         public CommandListener(Process process) : base(process)
         {
+            this.process = process;
         }
 
         /// <summary>
@@ -26,6 +30,12 @@ namespace McGuard.src.listeners
         /// <returns>Return TRUE if was command successfully executed</returns>
         public bool OnPlayerCommand(structures.chat.Player player, Command command)
         {
+            //
+            // !killme
+            //
+            // Kills you, it's also available for non OP players, because for
+            // origin kill you need have OP rights
+            //
             if (command.Name == "!killme")
             {
                 SendInput("kill " + player.Name);
@@ -33,6 +43,11 @@ namespace McGuard.src.listeners
                 return true;
             }
 
+            //
+            // !whoami
+            //
+            // Command to get informations about YOU (like coords, name, and if u had OP)
+            //
             else if (command.Name == "!whoami")
             {
                 string[] listZprav =
@@ -54,6 +69,11 @@ namespace McGuard.src.listeners
                 return true;
             }
 
+            //
+            // !help
+            //
+            // Just a command for show all available commands
+            //
             else if (command.Name == "!help")
             {
                 if (player.IsOpped)
@@ -69,6 +89,7 @@ namespace McGuard.src.listeners
                         " for admins:",
                         "   !help - Show all available commands",
                         "   !kick [name] - Kicks player from server",
+                        "   !macro [filename] - Kicks player from server",
                         "",
                     };
 
@@ -87,6 +108,11 @@ namespace McGuard.src.listeners
                 return true;
             }
 
+            //
+            // !kick [playername]
+            //
+            // Command for kick player, simple for use
+            //
             else if (command.Name.Contains("!kick"))
             {
                 List<structures.Player> selectedPlayers = PlayerManager.FindPlayer(command.Arguments[1]);
@@ -106,6 +132,50 @@ namespace McGuard.src.listeners
                 else
                 {
                     SendMessageToPlayer(player, new Message(StringManager.GetString(0), StringManager.GetString(0).Length, structures.text.Color.White, structures.text.Style.None, true));
+                }
+
+                return true;
+            }
+
+            //
+            // !macro [filename]
+            //
+            // Macro is a simple sequence of commands presented in file.
+            // Script files are stored in macros/ directory. (only accepted extension is *.txt)
+            //
+            else if (command.Name.StartsWith("!macro"))
+            {
+                if (command.Arguments.Length > 1)
+                {
+                    string fileName = command.Arguments[1].ToLower();
+
+                    if (!fileName.EndsWith(".txt"))
+                    {
+                        fileName += ".txt";
+                    }
+
+                    MacroProvider mp = new MacroProvider(process, fileName);
+
+                    if (mp.Exists())
+                    {
+                        if (mp.IsEmpty())
+                        {
+                            SendMessageToPlayer(player, new Message(StringManager.GetString(7).Replace("%s", fileName), StringManager.GetString(7).Replace("%s", fileName).Length, structures.text.Color.White, structures.text.Style.None, true));
+                        }
+                        else
+                        {
+                            SendMessageToPlayer(player, new Message(StringManager.GetString(5).Replace("%s", fileName), StringManager.GetString(5).Replace("%s", fileName).Length, structures.text.Color.White, structures.text.Style.None, true));
+                            mp.Execute();
+                        }
+                    }
+                    else
+                    {
+                        SendMessageToPlayer(player, new Message(StringManager.GetString(6).Replace("%s", fileName), StringManager.GetString(6).Replace("%s", fileName).Length, structures.text.Color.White, structures.text.Style.None, true));
+                    }
+                }
+                else
+                {
+                    SendMessageToPlayer(player, new Message(StringManager.GetString(8), StringManager.GetString(8).Length, structures.text.Color.White, structures.text.Style.None, true));
                 }
 
                 return true;
