@@ -35,9 +35,9 @@ namespace McGuard.src.listeners
         /// <param name="player">Player instance</param>
         public void OnPlayerConnection(Player player)
         {
-            SendMessageToAll(new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
-            SendMessageToAll(new Message("> " + StringManager.GetString(4), StringManager.GetString(4).Length, structures.text.Color.Gray, structures.text.Style.Bold, false));
-            SendMessageToAll(new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
+            SendMessageToPlayer(player, new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
+            SendMessageToPlayer(player, new Message("> " + StringManager.GetString(4), StringManager.GetString(4).Length, structures.text.Color.Gray, structures.text.Style.Bold, false));
+            SendMessageToPlayer(player, new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
 
             if (messagesCount > 0)
             {
