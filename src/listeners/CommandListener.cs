@@ -39,6 +39,8 @@ namespace McGuard.src.listeners
         /// <returns>Return TRUE if was command successfully executed</returns>
         public bool OnPlayerCommand(structures.chat.Player player, Command command)
         {
+            #region Commands for everyone
+
             //
             // !killme
             //
@@ -111,6 +113,10 @@ namespace McGuard.src.listeners
 
                 return true;
             }
+
+            #endregion
+
+            #region Commands for admins
 
             //
             // !help
@@ -188,41 +194,50 @@ namespace McGuard.src.listeners
             //
             else if (command.Name.StartsWith("!macro"))
             {
-                if (command.Arguments.Length > 1)
+                if (player.IsOpped)
                 {
-                    string fileName = command.Arguments[1].ToLower();
-
-                    if (!fileName.EndsWith(".txt"))
+                    if (command.Arguments.Length > 1)
                     {
-                        fileName += ".txt";
-                    }
+                        string fileName = command.Arguments[1].ToLower();
 
-                    MacroProvider mp = new MacroProvider(process, fileName);
-
-                    if (mp.Exists())
-                    {
-                        if (mp.IsEmpty())
+                        if (!fileName.EndsWith(".txt"))
                         {
-                            SendMessageToPlayer(player, new Message(StringManager.GetString(7).Replace("%s", fileName), StringManager.GetString(7).Replace("%s", fileName).Length, structures.text.Color.White, structures.text.Style.None, true));
+                            fileName += ".txt";
+                        }
+
+                        MacroProvider mp = new MacroProvider(process, fileName);
+
+                        if (mp.Exists())
+                        {
+                            if (mp.IsEmpty())
+                            {
+                                SendMessageToPlayer(player, new Message(StringManager.GetString(7).Replace("%s", fileName), StringManager.GetString(7).Replace("%s", fileName).Length, structures.text.Color.White, structures.text.Style.None, true));
+                            }
+                            else
+                            {
+                                SendMessageToPlayer(player, new Message(StringManager.GetString(5).Replace("%s", fileName), StringManager.GetString(5).Replace("%s", fileName).Length, structures.text.Color.White, structures.text.Style.None, true));
+                                mp.Execute();
+                            }
                         }
                         else
                         {
-                            SendMessageToPlayer(player, new Message(StringManager.GetString(5).Replace("%s", fileName), StringManager.GetString(5).Replace("%s", fileName).Length, structures.text.Color.White, structures.text.Style.None, true));
-                            mp.Execute();
+                            SendMessageToPlayer(player, new Message(StringManager.GetString(6).Replace("%s", fileName), StringManager.GetString(6).Replace("%s", fileName).Length, structures.text.Color.White, structures.text.Style.None, true));
                         }
                     }
                     else
                     {
-                        SendMessageToPlayer(player, new Message(StringManager.GetString(6).Replace("%s", fileName), StringManager.GetString(6).Replace("%s", fileName).Length, structures.text.Color.White, structures.text.Style.None, true));
+                        SendMessageToPlayer(player, new Message(StringManager.GetString(8), StringManager.GetString(8).Length, structures.text.Color.White, structures.text.Style.None, true));
                     }
                 }
                 else
                 {
-                    SendMessageToPlayer(player, new Message(StringManager.GetString(8), StringManager.GetString(8).Length, structures.text.Color.White, structures.text.Style.None, true));
+                    SendMessageToPlayer(player, new Message(StringManager.GetString(0), StringManager.GetString(0).Length, structures.text.Color.White, structures.text.Style.None, true));
                 }
 
                 return true;
             }
+
+            #endregion
 
             return false;
         }

@@ -12,6 +12,7 @@ namespace McGuard.src.content
 
         public static void Setup()
         {
+            #region Basic string adding
             AddString(0, "Insufficient administrator privileges");
             AddString(1, "OK");
             AddString(2, "No players found");
@@ -22,6 +23,7 @@ namespace McGuard.src.content
             AddString(7, "Macro macros/%s does not contain any commands.");
             AddString(8, "Missing arguments");
             AddString(9, "McGuard v1.0 active");
+            #endregion
         }
 
         /// <summary>
