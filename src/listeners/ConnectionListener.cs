@@ -18,9 +18,15 @@ namespace McGuard.src.listeners
         /// </summary>
         private readonly string[] joinMessage;
 
+        /// <summary>
+        /// Join messages count
+        /// </summary>
+        private int messagesCount;
+
         public ConnectionListener(Process process) : base (process)
         {
             this.joinMessage = ConfigManager.GetValueByKey("joinmsg").Split('§');
+            messagesCount = joinMessage.Where(msg => msg.Trim().Length > 0).Select(msg => msg).Count();
         }
 
         /// <summary>
@@ -33,7 +39,7 @@ namespace McGuard.src.listeners
             SendMessageToAll(new Message("> " + StringManager.GetString(4), StringManager.GetString(4).Length, structures.text.Color.Gray, structures.text.Style.Bold, false));
             SendMessageToAll(new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
 
-            if (joinMessage.Length > 0)
+            if (messagesCount > 0)
             {
                 foreach (var singleMessage in joinMessage)
                 {
