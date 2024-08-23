@@ -89,7 +89,6 @@
     <Compile Include="src\structures\Player.cs" />
     <Compile Include="src\structures\text\Color.cs" />
     <Compile Include="src\structures\text\Style.cs" />
-    <Compile Include="src\structures\World.cs" />
     <Compile Include="src\test\Testing.cs" />
     <Compile Include="src\utils\ConfigManager.cs" />
     <Compile Include="src\utils\IPC.cs" />
