@@ -52,7 +52,7 @@ namespace McGuard.src.listeners
                     }
                 }
 
-                SendMessageToAll(new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
+                SendMessageToPlayer(player, new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
             }
 
             SendMessageToAll(new Message(StringManager.GetString(3).Replace("%s", player.Name), StringManager.GetString(3).Replace("%s", player.Name).Length, structures.text.Color.Gold, structures.text.Style.Italic, false));
