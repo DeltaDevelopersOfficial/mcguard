@@ -134,6 +134,7 @@ namespace McGuard.src.listeners
                         " for everyone:",
                         "   !killme - Kills you",
                         "   !whoami - Show information about you",
+                        "   !info - Show information about server",
                         "",
                         " for admins:",
                         "   !help - Show all available commands",
