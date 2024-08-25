@@ -4,9 +4,11 @@ using McGuard.src.core.providers;
 using McGuard.src.handlers;
 using McGuard.src.structures;
 using McGuard.src.structures.chat;
+using McGuard.src.utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -223,6 +225,59 @@ namespace McGuard.src.listeners
                         else
                         {
                             SendMessageToPlayer(player, new Message(StringManager.GetString(6).Replace("%s", fileName), StringManager.GetString(6).Replace("%s", fileName).Length, structures.text.Color.White, structures.text.Style.None, true));
+                        }
+                    }
+                    else
+                    {
+                        SendMessageToPlayer(player, new Message(StringManager.GetString(8), StringManager.GetString(8).Length, structures.text.Color.White, structures.text.Style.None, true));
+                    }
+                }
+                else
+                {
+                    SendMessageToPlayer(player, new Message(StringManager.GetString(0), StringManager.GetString(0).Length, structures.text.Color.White, structures.text.Style.None, true));
+                }
+
+                return true;
+            }
+
+            //
+            // !setloc [name]
+            //
+            // Sets a specificed location to late teleport to it
+            //
+            else if (command.Name.StartsWith("!setloc"))
+            {
+                if (player.IsOpped)
+                {
+                    if (command.Arguments.Length > 1)
+                    {
+                        string locationName = command.Arguments[1].ToLower();
+
+                        // just for security
+                        locationName = CryptographyStrategy.GetSha1FromText(locationName);
+
+                        if (!Directory.Exists(Environment.CurrentDirectory + "\\locations"))
+                        {
+                            Directory.CreateDirectory(Environment.CurrentDirectory + "\\locations");
+                        }
+
+                        string filePath = Environment.CurrentDirectory + "\\locations\\" + locationName;
+
+                        if (!File.Exists(filePath))
+                        {
+                            try
+                            {
+                                File.WriteAllText(filePath, player.PositionX + "," + player.PositionY + "," + player.PositionZ);
+                                SendMessageToPlayer(player, new Message(StringManager.GetString(1), StringManager.GetString(1).Length, structures.text.Color.White, structures.text.Style.None, true));
+                            }
+                            catch
+                            {
+                                SendMessageToPlayer(player, new Message(StringManager.GetString(10).Replace("%s", "1972"), StringManager.GetString(10).Replace("%s", "1972").Length, structures.text.Color.White, structures.text.Style.None, true));
+                            }
+                        }
+                        else
+                        {
+                            SendMessageToPlayer(player, new Message(StringManager.GetString(11).Replace("%s", "Location"), StringManager.GetString(11).Replace("%s", "Location").Length, structures.text.Color.White, structures.text.Style.None, true));
                         }
                     }
                     else
