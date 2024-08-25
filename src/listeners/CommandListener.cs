@@ -143,6 +143,8 @@ namespace McGuard.src.listeners
                         "   !help - Show all available commands",
                         "   !kick [name] - Kicks player from server",
                         "   !macro [filename] - Kicks player from server",
+                        "   !setloc [savename] - Create point to late teleport to it",
+                        "   !tp [savename] - Teleports you to saved point",
                         "",
                     };
 
