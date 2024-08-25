@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -277,7 +278,66 @@ namespace McGuard.src.listeners
                         }
                         else
                         {
-                            SendMessageToPlayer(player, new Message(StringManager.GetString(11).Replace("%s", "Location"), StringManager.GetString(11).Replace("%s", "Location").Length, structures.text.Color.White, structures.text.Style.None, true));
+                            SendMessageToPlayer(player, new Message(StringManager.GetString(11).Replace("%s", "Location").Replace("%d", "already"), StringManager.GetString(11).Replace("%s", "Location").Replace("%d", "already").Length, structures.text.Color.White, structures.text.Style.None, true));
+                        }
+                    }
+                    else
+                    {
+                        SendMessageToPlayer(player, new Message(StringManager.GetString(8), StringManager.GetString(8).Length, structures.text.Color.White, structures.text.Style.None, true));
+                    }
+                }
+                else
+                {
+                    SendMessageToPlayer(player, new Message(StringManager.GetString(0), StringManager.GetString(0).Length, structures.text.Color.White, structures.text.Style.None, true));
+                }
+
+                return true;
+            }
+
+            //
+            // !tp [name]
+            //
+            // Teleports you to saved location by command !setloc [name]
+            //
+            else if (command.Name.StartsWith("!tp"))
+            {
+                if (player.IsOpped)
+                {
+                    if (command.Arguments.Length > 1)
+                    {
+                        string locationName = command.Arguments[1].ToLower();
+
+                        // just for security
+                        locationName = CryptographyStrategy.GetSha1FromText(locationName);
+
+                        if (!Directory.Exists(Environment.CurrentDirectory + "\\locations"))
+                        {
+                            Directory.CreateDirectory(Environment.CurrentDirectory + "\\locations");
+                        }
+
+                        string filePath = Environment.CurrentDirectory + "\\locations\\" + locationName;
+
+                        if (File.Exists(filePath))
+                        {
+                            string plainCoords = File.ReadAllText(filePath);
+
+                            // get coords, X, Y, Z, split by ","
+                            string[] coords = plainCoords.Split(',');
+
+                            // checks if it's valid format of coords
+                            if (coords.Length == 3)
+                            {
+                                SendInput("tp " + player.Name + " " + coords[0] + " " + coords[1] + " " + coords[2]);
+                                SendMessageToPlayer(player, new Message(StringManager.GetString(1), StringManager.GetString(1).Length, structures.text.Color.White, structures.text.Style.None, true));
+                            }
+                            else
+                            {
+                                SendMessageToPlayer(player, new Message(StringManager.GetString(13), StringManager.GetString(13).Length, structures.text.Color.White, structures.text.Style.None, true));
+                            }
+                        }
+                        else
+                        {
+                            SendMessageToPlayer(player, new Message(StringManager.GetString(11).Replace("%s", "Location").Replace("%d", "not"), StringManager.GetString(11).Replace("%s", "Location").Replace("%d", "already").Length, structures.text.Color.White, structures.text.Style.None, true));
                         }
                     }
                     else
