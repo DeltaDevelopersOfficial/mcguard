@@ -91,6 +91,7 @@
     <Compile Include="src\structures\text\Style.cs" />
     <Compile Include="src\test\Testing.cs" />
     <Compile Include="src\utils\ConfigManager.cs" />
+    <Compile Include="src\utils\CryptographyStrategy.cs" />
     <Compile Include="src\utils\IPC.cs" />
     <Compile Include="src\utils\JavaChecker.cs" />
     <Compile Include="src\utils\ProcessUtil.cs" />
