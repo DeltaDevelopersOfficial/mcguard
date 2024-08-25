@@ -11,6 +11,7 @@ using System.Diagnostics;
 using McGuard.src.structures;
 using McGuard.src.structures.chat;
 using McGuard.src.core;
+using McGuard.src.content;
 
 namespace McGuard.src.utils
 {
@@ -186,7 +187,7 @@ namespace McGuard.src.utils
                     
                     if (!commandListener.OnPlayerCommand(player, command))
                     {
-                        commandListener.SendMessageToPlayer(player, new Message("Undefined command!", "Undefined command!".Length, structures.text.Color.White, structures.text.Style.None, true));
+                        commandListener.SendMessageToPlayer(player, new Message(StringManager.GetString(12).Replace("%s", command.Name), StringManager.GetString(12).Replace("%s", command.Name).Length, structures.text.Color.White, structures.text.Style.None, true));
                     }
                 }
                 else
