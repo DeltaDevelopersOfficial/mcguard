@@ -256,6 +256,16 @@ namespace McGuard.src.listeners
                     {
                         string locationName = command.Arguments[1].ToLower();
 
+                        bool rewrite = false;
+
+                        if (command.Arguments.Length > 2)
+                        {
+                            if (command.Arguments[2].ToLower().Contains("--rewrite"))
+                            {
+                                rewrite = true;
+                            }
+                        }
+
                         // just for security
                         locationName = CryptographyStrategy.GetSha1FromText(locationName);
 
@@ -266,21 +276,29 @@ namespace McGuard.src.listeners
 
                         string filePath = Environment.CurrentDirectory + "\\locations\\" + locationName;
 
-                        if (!File.Exists(filePath))
+                        if (!rewrite)
                         {
-                            try
+                            if (!File.Exists(filePath))
                             {
-                                File.WriteAllText(filePath, player.PositionX + "," + player.PositionY + "," + player.PositionZ);
-                                SendMessageToPlayer(player, new Message(StringManager.GetString(1), StringManager.GetString(1).Length, structures.text.Color.White, structures.text.Style.None, true));
+                                try
+                                {
+                                    File.WriteAllText(filePath, player.PositionX + "," + player.PositionY + "," + player.PositionZ);
+                                    SendMessageToPlayer(player, new Message(StringManager.GetString(1), StringManager.GetString(1).Length, structures.text.Color.White, structures.text.Style.None, true));
+                                }
+                                catch
+                                {
+                                    SendMessageToPlayer(player, new Message(StringManager.GetString(10).Replace("%s", "1972"), StringManager.GetString(10).Replace("%s", "1972").Length, structures.text.Color.White, structures.text.Style.None, true));
+                                }
                             }
-                            catch
+                            else
                             {
-                                SendMessageToPlayer(player, new Message(StringManager.GetString(10).Replace("%s", "1972"), StringManager.GetString(10).Replace("%s", "1972").Length, structures.text.Color.White, structures.text.Style.None, true));
+                                SendMessageToPlayer(player, new Message(StringManager.GetString(11).Replace("%s", "Location").Replace("%d", "already"), StringManager.GetString(11).Replace("%s", "Location").Replace("%d", "already").Length, structures.text.Color.White, structures.text.Style.None, true));
                             }
                         }
                         else
                         {
-                            SendMessageToPlayer(player, new Message(StringManager.GetString(11).Replace("%s", "Location").Replace("%d", "already"), StringManager.GetString(11).Replace("%s", "Location").Replace("%d", "already").Length, structures.text.Color.White, structures.text.Style.None, true));
+                            File.WriteAllText(filePath, player.PositionX + "," + player.PositionY + "," + player.PositionZ);
+                            SendMessageToPlayer(player, new Message(StringManager.GetString(1), StringManager.GetString(1).Length, structures.text.Color.White, structures.text.Style.None, true));
                         }
                     }
                     else
