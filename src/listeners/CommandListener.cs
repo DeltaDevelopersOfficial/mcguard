@@ -146,7 +146,7 @@ namespace McGuard.src.listeners
                     {
                         "",
                         " Available commands:",
-                        "" + 
+                        "",
                         "  for everyone:",
                         "    !killme - Kills you",
                         "    !whoami - Show information about you",
@@ -158,8 +158,8 @@ namespace McGuard.src.listeners
                         "    !macro [filename] - Kicks player from server",
                         "    !setloc [savename] - Create point to late teleport to it",
                         "    !tp [savename] - Teleports you to saved point",
-                        "" + 
-                        "  for console:" +
+                        "",
+                        "  for console:",
                         "    !reload <[--all]> - Reloads mcguard configuration (parameter --all reloads also server configuration)",
                         "",
                     };
