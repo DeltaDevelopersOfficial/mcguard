@@ -15,7 +15,7 @@
 - For this moment, McGuard is available only on windows.
 
 ## Can do
-- Handle player join & ~~ quit server~~
+- Handle player join & ~quit server~
 - Handle incomming messages to chat
   - You can add custom commands starts with "!" (not visible for other in chat)
 
