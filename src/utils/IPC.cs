@@ -12,6 +12,7 @@ using McGuard.src.structures;
 using McGuard.src.structures.chat;
 using McGuard.src.core;
 using McGuard.src.content;
+using McGuard.src.structures.enums;
 
 namespace McGuard.src.utils
 {
@@ -184,10 +185,19 @@ namespace McGuard.src.utils
                 if (playerMessage.StartsWith("!"))
                 {
                    Command command = new Command(playerMessage, playerMessage.Split(' '));
-                    
-                    if (!commandListener.OnPlayerCommand(player, command))
+
+                    CommandResult commandResult = commandListener.OnPlayerCommand(player, command);
+
+                    if (commandResult.HasFlag(CommandResult.Failed))
                     {
                         commandListener.SendMessageToPlayer(player, new Message(StringManager.GetString(12).Replace("%s", command.Name), StringManager.GetString(12).Replace("%s", command.Name).Length, structures.text.Color.White, structures.text.Style.None, true));
+                    }
+                    else if (commandResult.HasFlag(CommandResult.Success))
+                    {
+                        if (commandResult.HasFlag(CommandResult.NotAvailableFromGame))
+                        {
+                            commandListener.SendMessageToPlayer(player, new Message(StringManager.GetString(14).Replace("%s", "in-game chat"), StringManager.GetString(14).Replace("%s", "in-game chat").Length, structures.text.Color.White, structures.text.Style.None, true));
+                        }
                     }
                 }
                 else
