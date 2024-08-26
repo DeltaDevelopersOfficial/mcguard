@@ -29,6 +29,7 @@ namespace McGuard.src.content
             AddString(13, "Invalid context format");
             AddString(14, "Not available for %s");
             AddString(15, "Unknown mcguard command: %s");
+            AddString(16, "Reloading the configuration..");
             #endregion
         }
 
