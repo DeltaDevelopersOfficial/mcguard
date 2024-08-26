@@ -2,10 +2,12 @@
 using McGuard.src.core;
 using McGuard.src.core.providers;
 using McGuard.src.handlers;
+using McGuard.src.io;
 using McGuard.src.structures;
 using McGuard.src.structures.chat;
 using McGuard.src.structures.enums;
 using McGuard.src.utils;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -41,21 +43,30 @@ namespace McGuard.src.listeners
         /// <param name="player">Player insrance</param>
         /// <param name="command">Command instance</param>
         /// <returns>Return TRUE if was command successfully executed</returns>
-        public bool OnPlayerCommand(structures.chat.Player player, Command command)
+        public CommandResult OnPlayerCommand(structures.chat.Player player, Command command)
         {
+            #region Ignore console commands
+
+            if (command.Name.Equals("!reload", StringComparison.CurrentCultureIgnoreCase))
+            {
+                return CommandResult.Success | CommandResult.NotAvailableFromGame;
+            }
+
+            #endregion
+
             #region Commands for everyone
 
-            //
-            // !killme
-            //
-            // Kills you, it's also available for non OP players, because for
-            // origin kill you need have OP rights
-            //
-            if (command.Name == "!killme")
+                //
+                // !killme
+                //
+                // Kills you, it's also available for non OP players, because for
+                // origin kill you need have OP rights
+                //
+                if (command.Name == "!killme")
             {
                 SendInput("kill " + player.Name);
 
-                return true;
+                return CommandResult.Success;
             }
 
             //
@@ -89,7 +100,7 @@ namespace McGuard.src.listeners
                     SendMessageToPlayer(player, new Message(zprava, zprava.Length, structures.text.Color.White, structures.text.Style.None, false));
                 }
 
-                return true;
+                return CommandResult.Success;
             }
 
             //
@@ -115,7 +126,7 @@ namespace McGuard.src.listeners
                     SendMessageToPlayer(player, new Message(zprava, zprava.Length, structures.text.Color.White, structures.text.Style.None, false));
                 }
 
-                return true;
+                return CommandResult.Success;
             }
 
             #endregion
@@ -134,18 +145,22 @@ namespace McGuard.src.listeners
                     string[] listZprav =
                     {
                         "",
-                        "Available commands:",
-                        " for everyone:",
-                        "   !killme - Kills you",
-                        "   !whoami - Show information about you",
-                        "   !info - Show information about server",
+                        " Available commands:",
+                        "" + 
+                        "  for everyone:",
+                        "    !killme - Kills you",
+                        "    !whoami - Show information about you",
+                        "    !info - Show information about server",
                         "",
-                        " for admins:",
-                        "   !help - Show all available commands",
-                        "   !kick [name] - Kicks player from server",
-                        "   !macro [filename] - Kicks player from server",
-                        "   !setloc [savename] - Create point to late teleport to it",
-                        "   !tp [savename] - Teleports you to saved point",
+                        "  for admins:",
+                        "    !help - Show all available commands",
+                        "    !kick [name] - Kicks player from server",
+                        "    !macro [filename] - Kicks player from server",
+                        "    !setloc [savename] - Create point to late teleport to it",
+                        "    !tp [savename] - Teleports you to saved point",
+                        "" + 
+                        "  for console:" +
+                        "    !reload <[--all]> - Reloads mcguard configuration (parameter --all reloads also server configuration)",
                         "",
                     };
 
@@ -154,14 +169,14 @@ namespace McGuard.src.listeners
                         SendMessageToPlayer(player, new Message(zprava, zprava.Length, structures.text.Color.White, structures.text.Style.None, false));
                     }
 
-                    return true;
+                    return CommandResult.Success;
                 }
                 else
                 {
                     SendMessageToPlayer(player, new Message(StringManager.GetString(0), StringManager.GetString(0).Length, structures.text.Color.White, structures.text.Style.None, true));
                 }
 
-                return true;
+                return CommandResult.Success;
             }
 
             //
@@ -190,7 +205,7 @@ namespace McGuard.src.listeners
                     SendMessageToPlayer(player, new Message(StringManager.GetString(0), StringManager.GetString(0).Length, structures.text.Color.White, structures.text.Style.None, true));
                 }
 
-                return true;
+                return CommandResult.Success;
             }
 
             //
@@ -241,7 +256,7 @@ namespace McGuard.src.listeners
                     SendMessageToPlayer(player, new Message(StringManager.GetString(0), StringManager.GetString(0).Length, structures.text.Color.White, structures.text.Style.None, true));
                 }
 
-                return true;
+                return CommandResult.Success;
             }
 
             //
@@ -312,7 +327,7 @@ namespace McGuard.src.listeners
                     SendMessageToPlayer(player, new Message(StringManager.GetString(0), StringManager.GetString(0).Length, structures.text.Color.White, structures.text.Style.None, true));
                 }
 
-                return true;
+                return CommandResult.Success;
             }
 
             //
@@ -371,12 +386,12 @@ namespace McGuard.src.listeners
                     SendMessageToPlayer(player, new Message(StringManager.GetString(0), StringManager.GetString(0).Length, structures.text.Color.White, structures.text.Style.None, true));
                 }
 
-                return true;
+                return CommandResult.Success;
             }
 
             #endregion
 
-            return false;
+            return CommandResult.Failed;
         }
 
         /// <summary>
@@ -398,13 +413,38 @@ namespace McGuard.src.listeners
         /// <returns>Result if it was successfully or failedly executed</returns>
         public CommandResult OnConsoleCommand(Command command)
         {
-            if (command.Name.StartsWith("!"))
+            #region Console commands
+
+            if (command.Name.StartsWith("!tp") || command.Name.StartsWith("!setloc"))
             {
-                if (command.Name.StartsWith("!tp") || command.Name.StartsWith("!setloc"))
-                {
-                    return CommandResult.NotAvailableFromConsole | CommandResult.Success;
-                }
+                return CommandResult.NotAvailableFromConsole | CommandResult.Success;
             }
+            else if (command.Name.StartsWith("!reload", StringComparison.CurrentCultureIgnoreCase))
+            {
+                // clears config list
+                ConfigManager.ClearConfiguration();
+
+                ConsoleWindow.WriteLine(StringManager.GetString(16), "[" + DateTimeUtility.GetCurrentTime() + " SERVER]:");
+
+                // load config from mcguard.ini and server.properties
+                ConfigManager.LoadConfiguration("mcguard.ini");
+                ConfigManager.LoadConfiguration("server.properties");
+
+                ConsoleWindow.WriteLine(StringManager.GetString(1), "[" + DateTimeUtility.GetCurrentTime() + " SERVER]:");
+
+                if (command.Arguments.Length > 1 && command.Arguments[1].Equals("--all", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // save it before possible dissaster
+                    SendInput("save-all");
+
+                    // reloads the server
+                    SendInput("reload");
+                }
+
+                return CommandResult.Success;
+            }
+
+            #endregion
 
             return CommandResult.Failed;
         }
