@@ -49,7 +49,7 @@ namespace McGuard.src.listeners
 
             SendMessageToAll(new Message(StringManager.GetString(3).Replace("%s", player.Name), StringManager.GetString(3).Replace("%s", player.Name).Length, structures.text.Color.Gold, structures.text.Style.Italic, false));
 
-            FileManager.LogFileLine("connections.txt", "[" + DateTime.Now + "] " + player.Name + " / " + player.IpAddress + " / " + player.Id);
+            FileManager.LogFileLine("connections.txt", "[" + DateTime.Now + "] " + player.Name + " / " + ((player.IpAddress.StartsWith("/")) ? player.IpAddress.Substring(1).Trim() : player.IpAddress) + " / " + player.Id);
         }
     }
 }
