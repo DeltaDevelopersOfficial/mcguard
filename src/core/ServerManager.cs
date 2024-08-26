@@ -1,5 +1,9 @@
-﻿using McGuard.src.core.providers;
+﻿using McGuard.src.content;
+using McGuard.src.core.providers;
 using McGuard.src.handlers;
+using McGuard.src.listeners;
+using McGuard.src.structures;
+using McGuard.src.structures.enums;
 using McGuard.src.utils;
 using System;
 using System.Diagnostics;
@@ -34,6 +38,11 @@ namespace McGuard.src.core
         /// </summary>
         private OutputHandler outputHandler;
 
+        /// <summary>
+        /// Instance of command listener
+        /// </summary>
+        private CommandListener commandListener;
+
         public ServerManager(int maximumMemory, string jarName, string workingDirectory)
         {
             this.maximumMemory = maximumMemory;
@@ -64,6 +73,7 @@ namespace McGuard.src.core
             serverProcess.BeginOutputReadLine();
 
             this.outputHandler = new OutputHandler(serverProcess);
+            this.commandListener = new CommandListener(serverProcess);
 
             IPC ipc = new IPC(serverProcess, ConfigManager.GetValueByKey("server-port"));
             new Thread(ipc.Start).Start();
@@ -72,12 +82,42 @@ namespace McGuard.src.core
 
             while (!serverProcess.HasExited)
             {
-                string command = Console.ReadLine();
-                serverProcess.StandardInput.WriteLine(command);
-
-                if (command.Equals("stop", StringComparison.CurrentCultureIgnoreCase))
+                string input = Console.ReadLine();
+                
+                if (input.StartsWith("!") && input.Trim().Length > 0)
                 {
-                    Environment.Exit(0);
+                    Command command = new Command(input, input.Split(' '));
+
+                    CommandResult commandResult = commandListener.OnConsoleCommand(command);
+
+                    if (commandResult.HasFlag(CommandResult.Success))
+                    {
+                        if (commandResult.HasFlag(CommandResult.NotAvailableFromConsole))
+                        {
+                            Console.WriteLine(StringManager.GetString(14).Replace("%s", "console"));
+                        }
+                        else
+                        {
+                            // ...
+                        }
+                    }
+                    else if (commandResult.HasFlag(CommandResult.Failed))
+                    {
+                        Console.WriteLine(StringManager.GetString(15).Replace("%s", command.Name));
+                    }
+                }
+                else
+                {
+                    serverProcess.StandardInput.WriteLine(input);
+
+                    if (input.Equals("stop", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        new Thread(() =>
+                        {
+                            Thread.Sleep(500);
+                            Environment.Exit(0);
+                        }).Start();
+                    }
                 }
             }
         }
