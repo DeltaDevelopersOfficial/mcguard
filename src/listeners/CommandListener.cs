@@ -4,6 +4,7 @@ using McGuard.src.core.providers;
 using McGuard.src.handlers;
 using McGuard.src.structures;
 using McGuard.src.structures.chat;
+using McGuard.src.structures.enums;
 using McGuard.src.utils;
 using System;
 using System.Collections.Generic;
@@ -381,13 +382,31 @@ namespace McGuard.src.listeners
         /// <summary>
         /// On player chat message receive
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">Message instance</param>
         public void OnPlayerMessage(Message message)
         {
             //
             // send message to all other players
             //
             SendMessageToAll(message);
+        }
+
+        /// <summary>
+        /// On console command receive
+        /// </summary>
+        /// <param name="command">Command instance</param>
+        /// <returns>Result if it was successfully or failedly executed</returns>
+        public CommandResult OnConsoleCommand(Command command)
+        {
+            if (command.Name.StartsWith("!"))
+            {
+                if (command.Name.StartsWith("!tp") || command.Name.StartsWith("!setloc"))
+                {
+                    return CommandResult.NotAvailableFromConsole | CommandResult.Success;
+                }
+            }
+
+            return CommandResult.Failed;
         }
     }
 }
