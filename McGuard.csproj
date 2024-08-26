@@ -76,6 +76,7 @@
     <Compile Include="src\core\ServerManager.cs" />
     <Compile Include="src\handlers\InputHandler.cs" />
     <Compile Include="src\handlers\OutputHandler.cs" />
+    <Compile Include="src\io\ConsoleWindow.cs" />
     <Compile Include="src\listeners\CommandListener.cs" />
     <Compile Include="src\listeners\ConnectionListener.cs" />
     <Compile Include="src\Program.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="src\test\Testing.cs" />
     <Compile Include="src\utils\ConfigManager.cs" />
     <Compile Include="src\utils\CryptographyStrategy.cs" />
+    <Compile Include="src\utils\DateTimeUtility.cs" />
     <Compile Include="src\utils\IPC.cs" />
     <Compile Include="src\utils\JavaChecker.cs" />
     <Compile Include="src\utils\ProcessUtil.cs" />
