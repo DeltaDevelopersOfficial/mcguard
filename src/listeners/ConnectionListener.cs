@@ -13,20 +13,8 @@ namespace McGuard.src.listeners
 {
     internal class ConnectionListener : InputHandler
     {
-        /// <summary>
-        /// Array of join messages
-        /// </summary>
-        private readonly string[] joinMessage;
-
-        /// <summary>
-        /// Join messages count
-        /// </summary>
-        private int messagesCount;
-
         public ConnectionListener(Process process) : base (process)
         {
-            this.joinMessage = ConfigManager.GetValueByKey("joinmsg").Split('§');
-            messagesCount = joinMessage.Where(msg => msg.Trim().Length > 0).Select(msg => msg).Count();
         }
 
         /// <summary>
@@ -35,6 +23,9 @@ namespace McGuard.src.listeners
         /// <param name="player">Player instance</param>
         public void OnPlayerConnection(Player player)
         {
+            string[] joinMessage = joinMessage = ConfigManager.GetValueByKey("joinmsg").Split('§');
+            int messagesCount = joinMessage.Where(msg => msg.Trim().Length > 0).Select(msg => msg).Count();
+
             SendMessageToPlayer(player, new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
             SendMessageToPlayer(player, new Message("> " + StringManager.GetString(4), StringManager.GetString(4).Length, structures.text.Color.Gray, structures.text.Style.Bold, false));
             SendMessageToPlayer(player, new Message("", 0, structures.text.Color.White, structures.text.Style.None, false));
