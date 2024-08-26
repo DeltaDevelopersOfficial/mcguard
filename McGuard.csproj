@@ -84,6 +84,7 @@
     <Compile Include="src\structures\chat\Player.cs" />
     <Compile Include="src\structures\Command.cs" />
     <Compile Include="src\structures\Configuration.cs" />
+    <Compile Include="src\structures\enums\CommandResult.cs" />
     <Compile Include="src\structures\Macro.cs" />
     <Compile Include="src\structures\Message.cs" />
     <Compile Include="src\structures\Player.cs" />
