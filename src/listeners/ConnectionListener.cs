@@ -1,5 +1,6 @@
 ﻿using McGuard.src.content;
 using McGuard.src.handlers;
+using McGuard.src.io;
 using McGuard.src.structures;
 using McGuard.src.utils;
 using System;
@@ -47,6 +48,8 @@ namespace McGuard.src.listeners
             }
 
             SendMessageToAll(new Message(StringManager.GetString(3).Replace("%s", player.Name), StringManager.GetString(3).Replace("%s", player.Name).Length, structures.text.Color.Gold, structures.text.Style.Italic, false));
+
+            FileManager.LogFileLine("connections.txt", "[" + DateTime.Now + "] " + player.Name + " / " + player.IpAddress + " / " + player.Id);
         }
     }
 }
