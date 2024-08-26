@@ -27,6 +27,8 @@ namespace McGuard.src.content
             AddString(11, "%s is %d defined.");
             AddString(12, "Undefined command %s");
             AddString(13, "Invalid context format");
+            AddString(14, "Not available for %s");
+            AddString(15, "Unknown mcguard command: %s");
             #endregion
         }
 
