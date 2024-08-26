@@ -11,5 +11,6 @@ namespace McGuard.src.structures.enums
         Success = 0x1,                  // successfully command handled
         Failed = 0x2,                   // command not handled (probably because an unknown command)
         NotAvailableFromConsole = 0x4,  // handled game command from console
+        NotAvailableFromGame = 0x8,  // handled console command from game
     }
 }
