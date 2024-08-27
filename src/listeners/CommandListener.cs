@@ -56,13 +56,13 @@ namespace McGuard.src.listeners
 
             #region Commands for everyone
 
-                //
-                // !killme
-                //
-                // Kills you, it's also available for non OP players, because for
-                // origin kill you need have OP rights
-                //
-                if (command.Name == "!killme")
+            //
+            // !killme
+            //
+            // Kills you, it's also available for non OP players, because for
+            // origin kill you need have OP rights
+            //
+            if (command.Name == "!killme")
             {
                 SendInput("kill " + player.Name);
 
@@ -185,9 +185,9 @@ namespace McGuard.src.listeners
             //
             // Command for kick/ban player, simple for use
             //
-            else if (command.Name.StartsWith("!kick") ||command.Name.StartsWith("!ban"))
+            else if (command.Name.StartsWith("!kick") || command.Name.StartsWith("!ban"))
             {
-                
+
                 if (player.IsOpped)
                 {
                     if (command.Arguments.Length > 1)
@@ -199,7 +199,7 @@ namespace McGuard.src.listeners
                             .Substring(1)
                             .Split(' ')[0]
                             .Trim();
-                        
+
                         if (selectedPlayers.Count > 0)
                         {
                             if (action == "ban")
