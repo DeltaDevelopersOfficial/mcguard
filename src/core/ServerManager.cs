@@ -50,6 +50,25 @@ namespace McGuard.src.core
             this.workingDirectory = workingDirectory;
         }
 
+        public void Setup()
+        {
+            this.outputHandler = new OutputHandler(serverProcess);
+            this.commandListener = new CommandListener(serverProcess);
+
+            IPC ipc = new IPC(serverProcess, ConfigManager.GetValueByKey("server-port"));
+            new Thread(ipc.Start).Start();
+
+            if (int.TryParse(ConfigManager.GetValueByKey("maxcpuaffinity"), out int cpuCores))
+            {
+                // if is higher, set limit
+                // but if it's less, use all cores (default)
+                if (cpuCores > 0)
+                {
+                    ProcessUtil.SetProcessAffinity(cpuCores, serverProcess);
+                }
+            }
+        }
+
         /// <summary>
         /// Create server process
         /// </summary>
@@ -72,11 +91,7 @@ namespace McGuard.src.core
             serverProcess.Start();
             serverProcess.BeginOutputReadLine();
 
-            this.outputHandler = new OutputHandler(serverProcess);
-            this.commandListener = new CommandListener(serverProcess);
-
-            IPC ipc = new IPC(serverProcess, ConfigManager.GetValueByKey("server-port"));
-            new Thread(ipc.Start).Start();
+            Setup();
 
             serverProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => outputHandler.OnDataReceive(e);
 
