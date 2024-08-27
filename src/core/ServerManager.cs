@@ -93,6 +93,9 @@ namespace McGuard.src.core
 
             Setup();
 
+            // disable command feedback from server
+            serverProcess.StandardInput.WriteLine("gamerule sendCommandFeedback false");
+
             serverProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => outputHandler.OnDataReceive(e);
 
             while (!serverProcess.HasExited)
