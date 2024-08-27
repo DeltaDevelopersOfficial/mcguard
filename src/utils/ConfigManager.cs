@@ -13,7 +13,8 @@ namespace McGuard.src.utils
         /// </summary>
         private static List<string> requiredConfigKeys = new List<string>()
         {
-            "joinmsg"
+            "joinmsg",
+            "chatformat"
         };
 
         /// <summary>
