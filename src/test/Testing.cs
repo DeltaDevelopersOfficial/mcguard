@@ -18,10 +18,19 @@ namespace McGuard.src.test
             ConfigManager.LoadConfiguration("mcguard.ini");
             ConfigManager.LoadConfiguration("server.properties");
 
-            StringManager.Setup();
+            if (ConfigManager.ValidateConfiguration())
+            {
+                StringManager.Setup();
 
-            ServerManager sm = new ServerManager(256, "server.jar", Environment.CurrentDirectory);
-            sm.CreateServerProcess();
+                ServerManager sm = new ServerManager(256, "server.jar", Environment.CurrentDirectory);
+                sm.CreateServerProcess();
+            }
+            else
+            {
+                Console.WriteLine("Problem with configuration.\tAborting!");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
         }
     }
 }
