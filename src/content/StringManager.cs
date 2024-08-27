@@ -17,7 +17,7 @@ namespace McGuard.src.content
             AddString(1, "OK");
             AddString(2, "No players found");
             AddString(3, "%s joined the game");
-            AddString(4, "McGuard v1.0 active - github.com/pavelkalas/mcguard");
+            AddString(4, "McGuard v1.0 active - by https://pavelkalas.cz");
             AddString(5, "Executing macro macros/%s");
             AddString(6, "Macro macros/%s not found.");
             AddString(7, "Macro macros/%s does not contain any commands.");
