@@ -433,11 +433,24 @@ namespace McGuard.src.listeners
         /// On player chat message receive
         /// </summary>
         /// <param name="message">Message instance</param>
-        public void OnPlayerMessage(Message message)
+        public void OnPlayerMessage(structures.chat.Player player, Message message)
         {
             //
             // send message to all other players
             //
+
+            string chatFormat = ConfigManager.GetValueByKey("chatformat");
+            
+            if (chatFormat.Contains("%p") && chatFormat.Contains("%c"))
+            {
+                message.SetContent(chatFormat.Replace("%p", player.Name).Replace("%c", message.Content));
+            }
+            else
+            {
+                // default minecraft chat format
+                message.SetContent("<" + player.Name + "> " + message.Content);
+            }
+
             SendMessageToAll(message);
         }
 
