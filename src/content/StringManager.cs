@@ -30,6 +30,7 @@ namespace McGuard.src.content
             AddString(14, "Not available for %s");
             AddString(15, "Unknown mcguard command: %s");
             AddString(16, "Reloading the configuration..");
+            AddString(17, "MCGuard has %a %p from the server (%w)"); // %a = action | %p = player | %r = who (for now only "Administrator")
             #endregion
         }
 
