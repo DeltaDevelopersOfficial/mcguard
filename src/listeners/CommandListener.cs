@@ -181,23 +181,58 @@ namespace McGuard.src.listeners
 
             //
             // !kick [playername]
+            // !ban [playername]
             //
-            // Command for kick player, simple for use
+            // Command for kick/ban player, simple for use
             //
-            else if (command.Name.Contains("!kick"))
+            else if (command.Name.StartsWith("!kick") ||command.Name.StartsWith("!ban"))
             {
-                List<structures.Player> selectedPlayers = PlayerManager.FindPlayer(command.Arguments[1]);
-
+                
                 if (player.IsOpped)
                 {
-                    if (selectedPlayers.Count > 0)
+                    if (command.Arguments.Length > 1)
                     {
-                        SendMessageToPlayer(player, new Message(StringManager.GetString(1), StringManager.GetString(1).Length, structures.text.Color.White, structures.text.Style.None, true));
-                        SendInput("kick " + command.Arguments[1]);
+                        List<structures.Player> selectedPlayers = PlayerManager.FindPlayer(command.Arguments[1]);
+
+                        string action = command.Name
+                            .ToLower()
+                            .Substring(1)
+                            .Split(' ')[0]
+                            .Trim();
+                        
+                        if (selectedPlayers.Count > 0)
+                        {
+                            if (action == "ban")
+                            {
+                                SendInput("ban " + command.Arguments[1]);
+
+                                string msg = StringManager.GetString(17)
+                                    .Replace("%p", command.Arguments[1])
+                                    .Replace("%s", "banned")
+                                    .Replace("%w", "Administrator");
+
+                                SendMessageToPlayer(player, new Message(msg, msg.Length, structures.text.Color.Red, structures.text.Style.None, true));
+                            }
+                            else
+                            {
+                                SendInput("kick " + command.Arguments[1]);
+
+                                string msg = StringManager.GetString(17)
+                                    .Replace("%p", command.Arguments[1])
+                                    .Replace("%s", "kicked")
+                                    .Replace("%w", "Administrator");
+
+                                SendMessageToPlayer(player, new Message(msg, msg.Length, structures.text.Color.Red, structures.text.Style.None, true));
+                            }
+                        }
+                        else
+                        {
+                            SendMessageToPlayer(player, new Message(StringManager.GetString(2), StringManager.GetString(2).Length, structures.text.Color.White, structures.text.Style.None, true));
+                        }
                     }
                     else
                     {
-                        SendMessageToPlayer(player, new Message(StringManager.GetString(2), StringManager.GetString(2).Length, structures.text.Color.White, structures.text.Style.None, true));
+                        SendMessageToPlayer(player, new Message(StringManager.GetString(8), StringManager.GetString(8).Length, structures.text.Color.White, structures.text.Style.None, true));
                     }
                 }
                 else
