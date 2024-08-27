@@ -2,11 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace McGuard.src.utils
 {
     internal class ConfigManager
     {
+        /// <summary>
+        /// List of required configuration keys
+        /// </summary>
+        private static List<string> requiredConfigKeys = new List<string>()
+        {
+            "joinmsg"
+        };
+
         /// <summary>
         /// Configuration list
         /// </summary>
@@ -21,6 +30,24 @@ namespace McGuard.src.utils
             {
                 configList.Clear();
             }
+        }
+
+        /// <summary>
+        /// Validates a configuration
+        /// It checks if all NEEDED values/keys are entered
+        /// </summary>
+        /// <returns>Returns TRUE if all required config it's found in config file</returns>
+        public static bool ValidateConfiguration()
+        {
+            foreach (var keys in requiredConfigKeys)
+            {
+                if (!HasKey(keys))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -84,5 +111,31 @@ namespace McGuard.src.utils
 
             return null;
         }
+
+        /// <summary>
+        /// Checks the configuration if it has a specified key
+        /// </summary>
+        /// <param name="keyName">Needle</param>
+        /// <returns>Returns TRUE if KEY exists</returns>
+        public static bool HasKey(string keyName)
+        {
+            return configList.Where(conf => conf.ConfigKey == keyName).Select(conf => conf).Count() > 0;
+        }
+
+        /// <summary>
+        /// Checks the configuration if it has a set value at key
+        /// </summary>
+        /// <param name="keyName">Needle</param>
+        /// <returns>Returns TRUE if is any value SET at KEY</returns>
+        /*
+         * 
+         * NOT USED NOW, IT's UNECESSARY TO COMPILE IT
+         * 
+         * 
+        public static bool HasVal(string keyName)
+        {
+            return configList.Where(conf => conf.ConfigKey == keyName && conf.ConfigVal.Trim().Length > 0).Count() > 0;
+        }
+        */
     }
 }
