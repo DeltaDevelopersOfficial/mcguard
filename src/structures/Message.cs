@@ -36,5 +36,14 @@ namespace McGuard.src.structures
             this.Style = style;
             this.IsServerMessage = isServerMessage;
         }
+
+        /// <summary>
+        /// Sets a content text
+        /// </summary>
+        /// <param name="content"></param>
+        public void SetContent(string content)
+        {
+            Content = content;
+        }
     }
 }
