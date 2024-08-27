@@ -14,7 +14,8 @@ namespace McGuard.src.utils
         private static List<string> requiredConfigKeys = new List<string>()
         {
             "joinmsg",
-            "chatformat"
+            "chatformat",
+            "maxcpuaffinity",
         };
 
         /// <summary>
@@ -81,6 +82,12 @@ namespace McGuard.src.utils
 
                     string configKey = configArgs[0].Trim();
                     string configVal = configArgs[1].Trim();
+
+                    // ignore comments in the configuration file
+                    if (configVal.Contains("//"))
+                    {
+                        configVal = configVal.Split(new[] { "//" }, StringSplitOptions.None)[0].Trim();
+                    }
 
                     if (configKey.Length > 0)
                     {
